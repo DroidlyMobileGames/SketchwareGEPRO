@@ -96,9 +96,9 @@ public class ManageLibraryActivity extends BaseAppCompatActivity implements View
                     admobLibraryBean = libraryBean;
                     break;
 
-                case ProjectLibraryBean.PROJECT_LIB_TYPE_GOOGLE_MAP:
+                /*case ProjectLibraryBean.PROJECT_LIB_TYPE_GOOGLE_MAP:
                     googleMapLibraryBean = libraryBean;
-                    break;
+                    break;*/
             }
         }
 
@@ -158,7 +158,7 @@ public class ManageLibraryActivity extends BaseAppCompatActivity implements View
         jC.c(sc_id).b(compatLibraryBean);
         jC.c(sc_id).c(firebaseLibraryBean);
         jC.c(sc_id).a(admobLibraryBean);
-        jC.c(sc_id).d(googleMapLibraryBean);
+        //jC.c(sc_id).d(googleMapLibraryBean);
         jC.c(sc_id).k();
         jC.b(sc_id).a(jC.c(sc_id));
         jC.a(sc_id).a(jC.b(sc_id));
@@ -235,9 +235,9 @@ public class ManageLibraryActivity extends BaseAppCompatActivity implements View
                         toAdmobActivity(admobLibraryBean);
                         break;
 
-                    case ProjectLibraryBean.PROJECT_LIB_TYPE_GOOGLE_MAP:
+                    /*case ProjectLibraryBean.PROJECT_LIB_TYPE_GOOGLE_MAP:
                         toGoogleMapActivity(googleMapLibraryBean);
-                        break;
+                        break;*/
                 }
             } else {
                 toExcludeBuiltinLibrariesActivity();
@@ -310,7 +310,7 @@ public class ManageLibraryActivity extends BaseAppCompatActivity implements View
         addLibraryItem(compatLibraryBean);
         addLibraryItem(firebaseLibraryBean);
         addLibraryItem(admobLibraryBean);
-        addLibraryItem(googleMapLibraryBean);
+        ///addLibraryItem(googleMapLibraryBean);
         // Exclude built-in libraries
         addLibraryItem(null);
     }

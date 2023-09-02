@@ -76,7 +76,7 @@ public class BackupFactory {
 
     private static File getAllLocalLibsDir() {
         return new File(Environment.getExternalStorageDirectory(),
-                ".sketchware/libs/local_libs");
+                ".sketchwarege/libs/local_libs");
     }
 
     private static HashMap<String, Object> getProject(File file) {
@@ -561,11 +561,11 @@ public class BackupFactory {
 
     private File getProjectPath() {
         return new File(Environment.getExternalStorageDirectory(),
-                ".sketchware/mysc/list/" + sc_id + "/project");
+                ".sketchwarege/mysc/list/" + sc_id + "/project");
     }
 
     private File getLocalLibsPath() {
         return new File(Environment.getExternalStorageDirectory(),
-                ".sketchware/data/" + sc_id + "/local_library");
+                ".sketchwarege/data/" + sc_id + "/local_library");
     }
 }

@@ -223,28 +223,20 @@ public class Jx {
         }
         sb.append(EOL);
 
-        sb.append("public class ").append(projectFileBean.getActivityName()).append(" extends ");
-        if (buildConfig.g) {
-            if (isBottomDialogFragment) {
-                sb.append("BottomSheetDialogFragment");
-            } else if (isDialogFragment) {
-                sb.append("DialogFragment");
-            } else if (isFragment) {
-                sb.append("Fragment");
-            } else {
-                sb.append("AppCompatActivity");
-            }
+        sb.append("public class ").append(projectFileBean.getActivityName());
+
+        if (isDialogFragment) {
+            sb.append("DialogFragment");
+        } else if (isFragment) {
+            sb.append("Fragment");
         } else {
-            if (isBottomDialogFragment) {
-                sb.append("/* Enable AppCompat to use it */");
-            } else if (isDialogFragment) {
-                sb.append("DialogFragment");
-            } else if (isFragment) {
-                sb.append("Fragment");
-            } else {
-                sb.append("Activity");
+            if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+                sb.append(" extends SurfaceView implements SurfaceHolder.Callback");
+            }else if (projectFileBean.getJavaName().equals("MainActivity.java")) {
+                sb.append(" extends Activity");
             }
         }
+
         sb.append(" {").append(EOL);
 
         boolean activityHasFields = false;
@@ -320,28 +312,32 @@ public class Jx {
         if (activityHasFields) sb.append(EOL);
 
         sb.append(EOL);
-        if (isFragment) {
-            if (buildConfig.g) {
-                sb.append("@NonNull").append(EOL);
-                sb.append("@Override").append(EOL);
-                sb.append("public View onCreateView(@NonNull LayoutInflater _inflater, " +
-                        "@Nullable ViewGroup _container, @Nullable Bundle _savedInstanceState) {").append(EOL);
-            } else {
-                sb.append("@Override").append(EOL);
-                sb.append("public View onCreateView(LayoutInflater _inflater, ViewGroup _container, " +
-                        "Bundle _savedInstanceState) {").append(EOL);
-            }
-            sb.append("View _view = _inflater.inflate(R.layout.").append(projectFileBean.fileName).append(", _container, false);").append(EOL);
-            sb.append("initialize(_savedInstanceState, _view);");
-        } else {
 
+        if (isFragment) {
+
+        } else {
             if (projectFileBean.getJavaName().equals("MainActivity.java")) {
+                sb.append("GameviewActivity gameview;").append(EOL);
                 sb.append("@Override").append(EOL);
                 sb.append("protected void onCreate(Bundle _savedInstanceState) {").append(EOL);
                 sb.append("super.onCreate(_savedInstanceState);").append(EOL);
-                sb.append("setContentView(R.layout.")
-                        .append(projectFileBean.fileName).append(");").append(EOL);
-                sb.append("initialize(_savedInstanceState);");
+                sb.append("gameview = new GameviewActivity(this);").append(EOL);
+                sb.append("setContentView(gameview);");
+            }else
+            if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+                sb.append("SurfaceHolder surfaceHolder;").append(EOL);
+                sb.append("GameLoop gameLoop;").append(EOL);
+                sb.append("public GameviewActivity(Context context){").append(EOL);
+                sb.append("super(context);").append(EOL);
+                sb.append("surfaceHolder = getHolder();").append(EOL);
+                sb.append("surfaceHolder.addCallback(this);").append(EOL);
+                sb.append("gameLoop = new GameLoop(this,surfaceHolder);").append(EOL);
+                sb.append("initializeLogic();");
+            }else {
+                sb.append("GameviewActivity gameview;").append(EOL);
+                sb.append("public ".concat(projectFileBean.getActivityName().concat("(GameviewActivity gameview){"))).append(EOL);
+                sb.append("this.gameview = gameview;").append(EOL);
+                sb.append("initializeLogic();");
             }
         }
         sb.append(EOL);
@@ -388,31 +384,9 @@ public class Jx {
             sb.append(EOL);
         }
 
-        if (!isFragment) {
-            // Adds initializeLogic() call too, don't worry
-            sb.append(permissionManager.writePermission(buildConfig.g, buildConfig.a(projectFileBean.getActivityName()).c));
-        } else {
-            sb.append("initializeLogic();").append(EOL)
-                    .append("return _view;").append(EOL);
-        }
-        sb.append("}").append(EOL);
-
-        if (permissionManager.hasPermission && !isFragment) {
-            sb.append(EOL);
-            sb.append("@Override").append(EOL);
-            sb.append("public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {").append(EOL);
-            sb.append("super.onRequestPermissionsResult(requestCode, permissions, grantResults);").append(EOL);
-            sb.append("if (requestCode == 1000) {").append(EOL);
-            sb.append("initializeLogic();").append(EOL);
-            sb.append("}").append(EOL);
-            sb.append("}").append(EOL);
-        }
         sb.append(EOL);
-        if (isFragment) {
-            sb.append("private void initialize(Bundle _savedInstanceState, View _view) {");
-        } else {
-            sb.append("private void initialize(Bundle _savedInstanceState) {");
-        }
+
+
         if (!TextUtils.isEmpty(initializeLogic())) {
             sb.append(EOL);
             sb.append(initializeLogic());
@@ -464,10 +438,20 @@ public class Jx {
         sb.append("}").append(EOL);
         sb.append(EOL);
         sb.append("private void initializeLogic() {").append(EOL);
+
         if (onCreateEventCode.length() > 0) {
             sb.append(onCreateEventCode).append(EOL);
         }
         sb.append("}").append(EOL);
+
+        if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+            sb.append("public void draw(Canvas canvas){\n" +
+                    "        super.draw(canvas);").append(EOL);
+            sb.append("_draw(canvas);").append(EOL);
+            sb.append("}").append(EOL);
+        }
+
+        initializeSurfaceView(sb);
 
         String agusComponentsOnActivityResultCode = getBillingResponseCode(buildConfig.x);
         String onActivityResultLogic = activityResult();
@@ -555,7 +539,7 @@ public class Jx {
         sb.append("}").append(EOL);
         String code = sb.toString();
 
-        if (isFragment) {
+        /*if (isFragment) {
             code = code.replaceAll("getApplicationContext\\(\\)", "getContext().getApplicationContext()")
                     .replaceAll("getBaseContext\\(\\)", "getActivity().getBaseContext()")
                     .replaceAll("\\(ClipboardManager\\) getSystemService", "(ClipboardManager) getContext().getSystemService")
@@ -575,9 +559,33 @@ public class Jx {
                     .replaceAll("getSupportFragmentManager\\(\\)", "getActivity().getSupportFragmentManager()");
         } else if (buildConfig.g) {
             code = code.replaceAll("getFragmentManager", "getSupportFragmentManager");
-        }
+        }*/
 
         return CommandBlock.CB(Lx.j(code, false));
+    }
+
+    private void initializeSurfaceView(StringBuilder sb) {
+        if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+            sb.append("@Override").append(EOL);
+            sb.append("public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {").append(EOL);
+            //gameloop here
+            sb.append("if (gameLoop.getState().equals(Thread.State.TERMINATED)){\n" +
+                    "            surfaceHolder = getHolder();\n" +
+                    "            surfaceHolder.addCallback(this);\n" +
+                    "            gameLoop = new GameLoop(this, surfaceHolder);\n" +
+                    "        }\n" +
+                    "        gameLoop.startLoop();").append(EOL);
+            sb.append("}").append(EOL);
+            sb.append("@Override").append(EOL);
+            sb.append("public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {").append(EOL);
+
+            sb.append("}").append(EOL);
+            sb.append("@Override").append(EOL);
+            sb.append("public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {").append(EOL);
+
+            sb.append("}").append(EOL);
+        }
+
     }
 
     private String getListDeclarationAndAddImports(int listType, String listName) {
@@ -701,62 +709,7 @@ public class Jx {
         } else {
             addImport("android.app.Activity");
         }
-        if (buildConfig.g) {
-            if (projectFileBean.hasActivityOption(ProjectFileBean.OPTION_ACTIVITY_TOOLBAR) && !projectFileBean.fileName.contains("_fragment")) {
-                addImport("androidx.appcompat.widget.Toolbar");
-                addImport("androidx.coordinatorlayout.widget.CoordinatorLayout");
-                addImport("com.google.android.material.appbar.AppBarLayout");
 
-                fields.add("private Toolbar _toolbar;");
-                fields.add("private AppBarLayout _app_bar;");
-                fields.add("private CoordinatorLayout _coordinator;");
-                initializeMethodCode.add(
-                        "_app_bar = findViewById(R.id._app_bar);" + EOL +
-                                "_coordinator = findViewById(R.id._coordinator);" + EOL +
-                                "_toolbar = findViewById(R.id._toolbar);" + EOL +
-                                "setSupportActionBar(_toolbar);" + EOL +
-                                "getSupportActionBar().setDisplayHomeAsUpEnabled(true);" + EOL +
-                                "getSupportActionBar().setHomeButtonEnabled(true);" + EOL +
-                                "_toolbar.setNavigationOnClickListener(new View.OnClickListener() {" + EOL +
-                                "@Override" + EOL +
-                                "public void onClick(View _v) {" + EOL +
-                                "onBackPressed();" + EOL +
-                                "}" + EOL +
-                                "});"
-                );
-            }
-            if (projectFileBean.hasActivityOption(ProjectFileBean.OPTION_ACTIVITY_FAB)) {
-                addImport("com.google.android.material.floatingactionbutton.FloatingActionButton");
-
-                fields.add("private FloatingActionButton _fab;");
-                initializeMethodCode.add(
-                        (projectFileBean.fileName.contains("_fragment") ?
-                                "_fab = _view.findViewById(R.id._fab);" :
-                                "_fab = findViewById(R.id._fab);") + EOL
-                );
-            }
-            if (projectFileBean.hasActivityOption(ProjectFileBean.OPTION_ACTIVITY_DRAWER) && !projectFileBean.fileName.contains("_fragment")) {
-                addImport("androidx.core.view.GravityCompat");
-                addImport("androidx.drawerlayout.widget.DrawerLayout");
-                addImport("androidx.appcompat.app.ActionBarDrawerToggle");
-
-                fields.add("private DrawerLayout _drawer;");
-                initializeMethodCode.add("_drawer = findViewById(R.id._drawer);" + EOL +
-                        "ActionBarDrawerToggle _toggle = new ActionBarDrawerToggle(" +
-                        projectFileBean.getActivityName() + ".this, _drawer, " +
-
-                        (projectFileBean.hasActivityOption(ProjectFileBean.OPTION_ACTIVITY_TOOLBAR) ?
-                                "_toolbar, " : "") +
-
-                        "R.string.app_name, R.string.app_name);" + EOL +
-                        "_drawer.addDrawerListener(_toggle);" + EOL +
-                        "_toggle.syncState();" + EOL +
-                        EOL +
-                        "LinearLayout _nav_view = findViewById(R.id._nav_view);" + EOL
-                );
-                addImports(mq.getImportsByTypeName("LinearLayout"));
-            }
-        }
         addImport("android.app.*");
         addImport("android.os.*");
         addImport("android.view.*");
