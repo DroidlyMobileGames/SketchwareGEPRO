@@ -886,6 +886,7 @@ public class yq {
             if (filename.equals(isJavaFile ? file.getJavaName() : file.getXmlName())) {
                 if (isJavaFile) {
                     return new Jx(N, file, projectDataManager).generateCode();
+
                 } else if (isXmlFile) {
                     Ox xmlGenerator = new Ox(N, file);
                     xmlGenerator.a(eC.a(projectDataManager.d(filename)), projectDataManager.h(filename));

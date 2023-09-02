@@ -133,7 +133,9 @@ public class Jx {
     private String getLauncherActivity(String packageName) {
         String theImport = "";
 
-        String activityName = ProjectFileBean.getActivityName(AndroidManifestInjector.getLauncherActivity(projectDataManager.a));
+        String activityName = ProjectFileBean.getActivityName(
+                AndroidManifestInjector.getLauncherActivity(projectDataManager.a));
+
         if (!activityName.equals("MainActivity")) {
             theImport = "import " + packageName + "." + activityName + ";" + EOL;
         }
@@ -174,6 +176,7 @@ public class Jx {
         StringBuilder sb = new StringBuilder(8192);
         sb.append("package ").append(packageName).append(";").append(EOL)
                 .append(EOL);
+
         if (projectFileBean.getActivityName().equals("MainActivity")) {
             sb.append(getLauncherActivity(packageName));
         }
@@ -331,11 +334,15 @@ public class Jx {
             sb.append("View _view = _inflater.inflate(R.layout.").append(projectFileBean.fileName).append(", _container, false);").append(EOL);
             sb.append("initialize(_savedInstanceState, _view);");
         } else {
-            sb.append("@Override").append(EOL);
-            sb.append("protected void onCreate(Bundle _savedInstanceState) {").append(EOL);
-            sb.append("super.onCreate(_savedInstanceState);").append(EOL);
-            sb.append("setContentView(R.layout.").append(projectFileBean.fileName).append(");").append(EOL);
-            sb.append("initialize(_savedInstanceState);");
+
+            if (projectFileBean.getJavaName().equals("MainActivity.java")) {
+                sb.append("@Override").append(EOL);
+                sb.append("protected void onCreate(Bundle _savedInstanceState) {").append(EOL);
+                sb.append("super.onCreate(_savedInstanceState);").append(EOL);
+                sb.append("setContentView(R.layout.")
+                        .append(projectFileBean.fileName).append(");").append(EOL);
+                sb.append("initialize(_savedInstanceState);");
+            }
         }
         sb.append(EOL);
         if (buildConfig.isFirebaseEnabled) {

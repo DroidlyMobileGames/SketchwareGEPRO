@@ -30,7 +30,7 @@ with a free Sketchware Account"</string>
     <string name="account_settings_actionbar_title">Account Settings</string>
     <string name="account_settings_button_logout">Log Out</string>
     <string name="account_settings_description_no_nickname">No nickname created</string>
-    <string name="app_name">Sketchware Pro</string>
+    <string name="app_name">Sketchware GE</string>
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="besome_blog_url">http://medium.com/sketchware</string>
     <string name="block_add_list_int_body_1">to</string>
