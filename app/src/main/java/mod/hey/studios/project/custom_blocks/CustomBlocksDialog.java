@@ -11,7 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.besome.sketch.beans.BlockBean;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 

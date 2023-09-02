@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

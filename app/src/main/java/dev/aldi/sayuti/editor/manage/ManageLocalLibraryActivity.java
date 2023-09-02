@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -198,9 +198,9 @@ public class ManageLocalLibraryActivity extends Activity implements View.OnClick
         if (getIntent().hasExtra("sc_id")) {
             String sc_id = Objects.requireNonNull(getIntent().getStringExtra("sc_id"));
             notAssociatedWithProject = sc_id.equals("system");
-            local_lib_file = FileUtil.getExternalStorageDir().concat("/.sketchware/data/").concat(sc_id.concat("/local_library"));
+            local_lib_file = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/").concat(sc_id.concat("/local_library"));
         }
-        local_libs_path = FileUtil.getExternalStorageDir().concat("/.sketchware/libs/local_libs/");
+        local_libs_path = FileUtil.getExternalStorageDir().concat("/.sketchwarege/libs/local_libs/");
         loadFiles();
     }
 

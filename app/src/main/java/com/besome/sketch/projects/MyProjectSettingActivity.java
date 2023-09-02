@@ -25,7 +25,7 @@ import androidx.core.content.FileProvider;
 
 import com.besome.sketch.lib.base.BaseDialogActivity;
 import com.google.android.material.textfield.TextInputLayout;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -257,7 +257,7 @@ public class MyProjectSettingActivity extends BaseDialogActivity implements View
             }
             projectPackageName.setText(newProjectPackageName);
             this.projectName.setText(newProjectName);
-            projectAppName.setText(getIntent().getStringExtra("my_app_name"));
+            //projectAppName.setText(getIntent().getStringExtra("my_app_name"));
 
             String newProjectVersionCode = getIntent().getStringExtra("sc_ver_code");
             String newProjectVersionName = getIntent().getStringExtra("sc_ver_name");

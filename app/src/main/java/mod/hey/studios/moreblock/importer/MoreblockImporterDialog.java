@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.besome.sketch.beans.MoreBlockCollectionBean;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 

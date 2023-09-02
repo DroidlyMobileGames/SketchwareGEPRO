@@ -32,7 +32,7 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -330,7 +330,7 @@ public class EventsMaker extends Activity {
     }
 
     private void export(int p) {
-        String concat = FileUtil.getExternalStorageDir().concat("/.sketchware/data/system/export/events/");
+        String concat = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/system/export/events/");
         ArrayList<HashMap<String, Object>> ex = new ArrayList<>();
         ex.add(listMap.get(p));
         ArrayList<HashMap<String, Object>> ex2 = new ArrayList<>();

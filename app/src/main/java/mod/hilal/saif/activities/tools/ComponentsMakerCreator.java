@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class ComponentsMakerCreator extends Activity implements View.OnClickList
     }
 
     private void fillUp() {
-        String concat = FileUtil.getExternalStorageDir().concat("/.sketchware/data/system/component.json");
+        String concat = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/system/component.json");
         if (FileUtil.isExistFile(concat)) {
             ArrayList<HashMap<String, Object>> arrayList = new Gson().fromJson(FileUtil.readFile(concat), Helper.TYPE_MAP_LIST);
             coName.setText((String) arrayList.get(pos).get("name"));
@@ -149,7 +149,7 @@ public class ComponentsMakerCreator extends Activity implements View.OnClickList
 
     private void save() {
         ArrayList<HashMap<String, Object>> arrayList;
-        String concat = FileUtil.getExternalStorageDir().concat("/.sketchware/data/system/component.json");
+        String concat = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/system/component.json");
         if (FileUtil.isExistFile(concat)) {
             arrayList = new Gson().fromJson(FileUtil.readFile(concat), Helper.TYPE_MAP_LIST);
         } else {

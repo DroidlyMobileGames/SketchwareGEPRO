@@ -104,7 +104,7 @@ public class BaseAppCompatActivity extends AppCompatActivity {
         taskList = new ArrayList<>();
         lottieDialog = new ZA(this);
         lC.a(getApplicationContext(), false);
-        progressDialog = new _A(this);
+        //progressDialog = new _A(e);
         mAnalytics = FirebaseAnalytics.getInstance(this);
     }
 

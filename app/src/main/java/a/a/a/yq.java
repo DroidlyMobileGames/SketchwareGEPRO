@@ -13,8 +13,8 @@ import com.besome.sketch.beans.ProjectFileBean;
 import com.besome.sketch.beans.ProjectLibraryBean;
 import com.besome.sketch.beans.SrcCodeBean;
 import com.besome.sketch.beans.ViewBean;
-import com.sketchware.remod.R;
-import com.sketchware.remod.xml.XmlBuilder;
+import com.sketchware.remodgepro.R;
+import com.sketchware.remodgepro.xml.XmlBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -338,7 +338,7 @@ public class yq {
         boolean logcatEnabled = N.isDebugBuild && new BuildSettings(sc_id).getValue(
                 BuildSettings.SETTING_ENABLE_LOGCAT, BuildSettings.SETTING_GENERIC_VALUE_TRUE).equals(BuildSettings.SETTING_GENERIC_VALUE_TRUE);
 
-        String javaDir = FileUtil.getExternalStorageDir() + "/.sketchware/data/" + sc_id + "/files/java/";
+        String javaDir = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/files/java/";
         if (!new File(javaDir, "DebugActivity.java").exists()) {
             fileUtil.b(javaFilesPath + File.separator
                             + packageNameAsFolders + File.separator
@@ -686,8 +686,8 @@ public class yq {
         a(SketchApplication.getContext());
         CommandBlock.x();
 
-        final String javaDir = FileUtil.getExternalStorageDir() + "/.sketchware/data/" + sc_id + "/files/java/";
-        final String layoutDir = FileUtil.getExternalStorageDir() + "/.sketchware/data/" + sc_id + "/files/resource/layout/";
+        final String javaDir = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/files/java/";
+        final String layoutDir = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/files/resource/layout/";
         List<File> javaFiles;
         {
             File[] files = new File(javaDir).listFiles();

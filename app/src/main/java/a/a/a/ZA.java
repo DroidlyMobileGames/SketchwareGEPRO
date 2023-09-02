@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import mod.hey.studios.util.Helper;
 

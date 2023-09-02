@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
 
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 /**
  * A Sketchware-styled dialog.

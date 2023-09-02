@@ -53,7 +53,7 @@ import com.besome.sketch.lib.ui.CustomViewPager;
 import com.besome.sketch.tools.CompileLogActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;

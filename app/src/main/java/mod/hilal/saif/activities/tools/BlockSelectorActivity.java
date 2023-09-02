@@ -32,7 +32,7 @@ import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -193,7 +193,7 @@ public class BlockSelectorActivity extends AppCompatActivity implements View.OnC
                 case "Export current block selector menu":
                     ArrayList<HashMap<String, Object>> arrayList = new ArrayList<>();
                     arrayList.add(data.get(current_item));
-                    FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.sketchware/resources/block/export/menu/") + data.get(current_item).get("name") + ".json", new Gson().toJson(arrayList));
+                    FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.sketchwarege/resources/block/export/menu/") + data.get(current_item).get("name") + ".json", new Gson().toJson(arrayList));
                     SketchwareUtil.toast("Successfully exported block menu to:\n/Internal storage/.sketchware/resources/block/export", Toast.LENGTH_LONG);
                     break;
 
@@ -202,7 +202,7 @@ public class BlockSelectorActivity extends AppCompatActivity implements View.OnC
                     break;
 
                 case "Export all block selector menus":
-                    FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.sketchware/resources/block/export/menu/") + "All_Menus.json", new Gson().toJson(data));
+                    FileUtil.writeFile(FileUtil.getExternalStorageDir().concat("/.sketchwarege/resources/block/export/menu/") + "All_Menus.json", new Gson().toJson(data));
                     SketchwareUtil.toast("Successfully exported block menus to:\n/Internal storage/.sketchware/resources/block/export", Toast.LENGTH_LONG);
                     break;
 

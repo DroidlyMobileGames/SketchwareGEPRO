@@ -13,9 +13,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.sketchware.remod.BuildConfig;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.BuildConfig;
+import com.sketchware.remodgepro.R;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import a.a.a.GB;
 import a.a.a.xB;
 import mod.RequestNetwork;
-import mod.RequestNetworkController;
 import mod.SketchwareUtil;
 
 public class CollectErrorActivity extends Activity {

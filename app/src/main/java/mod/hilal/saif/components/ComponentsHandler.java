@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.besome.sketch.SketchApplication;
 import com.besome.sketch.beans.ComponentBean;
 import com.google.gson.Gson;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -544,7 +544,7 @@ public class ComponentsHandler {
     }
 
     public static String getPath() {
-        return FileUtil.getExternalStorageDir().concat("/.sketchware/data/system/component.json");
+        return FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/system/component.json");
     }
 
     /**

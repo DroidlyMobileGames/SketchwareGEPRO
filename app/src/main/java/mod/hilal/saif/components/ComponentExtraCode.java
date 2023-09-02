@@ -44,7 +44,7 @@ public class ComponentExtraCode {
         }
 
         // Hilal's components
-        String path = FileUtil.getExternalStorageDir().concat("/.sketchware/data/system/listeners.json");
+        String path = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/system/listeners.json");
         try {
             if (FileUtil.isExistFile(path) && !FileUtil.readFile(path).equals("") && !FileUtil.readFile(path).equals("[]")) {
                 JSONArray arr = new JSONArray(FileUtil.readFile(path));

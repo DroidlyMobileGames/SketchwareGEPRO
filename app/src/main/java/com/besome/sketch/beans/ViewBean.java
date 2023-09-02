@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
-import com.sketchware.remod.R;
+import com.sketchware.remodgepro.R;
 
 import a.a.a.Gx;
 import a.a.a.nA;

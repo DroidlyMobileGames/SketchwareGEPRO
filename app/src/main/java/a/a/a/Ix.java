@@ -11,7 +11,7 @@ import android.util.Pair;
 
 import com.besome.sketch.beans.ProjectFileBean;
 import com.google.gson.Gson;
-import com.sketchware.remod.xml.XmlBuilder;
+import com.sketchware.remodgepro.xml.XmlBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -738,7 +738,7 @@ public class Ix {
     }
 
     private ArrayList<HashMap<String, Object>> getActivityAttrs() {
-        String activityAttributesPath = FileUtil.getExternalStorageDir().concat("/.sketchware/data/").concat(c.sc_id).concat("/Injection/androidmanifest/attributes.json");
+        String activityAttributesPath = FileUtil.getExternalStorageDir().concat("/.sketchwarege/data/").concat(c.sc_id).concat("/Injection/androidmanifest/attributes.json");
         if (FileUtil.isExistFile(activityAttributesPath)) {
             try {
                 return new Gson().fromJson(FileUtil.readFile(activityAttributesPath), Helper.TYPE_MAP_LIST);
