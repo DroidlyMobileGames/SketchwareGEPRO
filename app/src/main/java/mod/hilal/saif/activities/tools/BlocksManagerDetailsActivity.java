@@ -46,7 +46,7 @@ import mod.hey.studios.util.Helper;
 
 public class BlocksManagerDetailsActivity extends AppCompatActivity {
 
-    private static final String BLOCK_EXPORT_PATH = new File(FileUtil.getExternalStorageDir(), ".sketchware/resources/block/export/").getAbsolutePath();
+    private static final String BLOCK_EXPORT_PATH = new File(FileUtil.getExternalStorageDir(), ".sketchwarege/resources/block/export/").getAbsolutePath();
 
     private final ArrayList<HashMap<String, Object>> filtered_list = new ArrayList<>();
     private final ArrayList<Integer> reference_list = new ArrayList<>();

@@ -159,6 +159,7 @@ public class MainActivity extends BasePermissionAppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
 
         tryLoadingCustomizedAppStrings();
+
         setContentView(R.layout.main);
         setSupportActionBar(findViewById(R.id.toolbar));
 

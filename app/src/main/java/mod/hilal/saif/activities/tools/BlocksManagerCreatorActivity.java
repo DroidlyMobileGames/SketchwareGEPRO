@@ -1,5 +1,6 @@
 package mod.hilal.saif.activities.tools;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -83,6 +84,7 @@ public class BlocksManagerCreatorActivity extends AppCompatActivity {
         initializeLogic();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initialize() {
         ScrollView scrollView = findViewById(R.id.scroll_view);
         pageTitle = findViewById(R.id.tx_toolbar_title);

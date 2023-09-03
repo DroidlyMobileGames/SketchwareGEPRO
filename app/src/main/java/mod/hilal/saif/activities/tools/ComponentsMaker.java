@@ -37,8 +37,8 @@ import mod.hilal.saif.components.ComponentsHandler;
 
 public class ComponentsMaker extends Activity {
 
-    private static final String PATH_COMPONENTS_FILE = ".sketchware/data/system/component.json";
-    private static final String PATH_COMPONENT_EXPORT = ".sketchware/data/system/export/components/";
+    private static final String PATH_COMPONENTS_FILE = ".sketchwarege/data/system/component.json";
+    private static final String PATH_COMPONENT_EXPORT = ".sketchwarege/data/system/export/components/";
     private static final String PATH_EXPORT_ALL_COMPONENTS_FILE_NAME = "All_Components.json";
     private static final String COMPONENTS_FILE_PATH = new File(FileUtil.getExternalStorageDir(), PATH_COMPONENTS_FILE).getAbsolutePath();
     private static final String COMPONENT_EXPORT_PATH = new File(FileUtil.getExternalStorageDir(), PATH_COMPONENT_EXPORT).getAbsolutePath();

@@ -73,7 +73,7 @@ class DependencyResolver(
 
     private val repositoriesJson = Paths.get(
             Environment.getExternalStorageDirectory().absolutePath,
-            ".sketchware", "libs", "repositories.json"
+            ".sketchwarege", "libs", "repositories.json"
     )
 
     init {

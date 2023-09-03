@@ -551,12 +551,12 @@ public class BackupFactory {
 
     private File getDataDir() {
         return new File(Environment.getExternalStorageDirectory(),
-                ".sketchware/data/" + sc_id);
+                ".sketchwarege/data/" + sc_id);
     }
 
     private File getResDir(String subfolder) {
         return new File(Environment.getExternalStorageDirectory(),
-                ".sketchware/resources/" + subfolder + "/" + sc_id);
+                ".sketchwarege/resources/" + subfolder + "/" + sc_id);
     }
 
     private File getProjectPath() {

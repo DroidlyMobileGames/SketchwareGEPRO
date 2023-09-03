@@ -71,8 +71,8 @@ public class ExtraMenuBean {
         permission = permissions.toArray(new String[0]);
     }
 
-    private final String ASSETS_PATH = FileUtil.getExternalStorageDir() + "/.sketchware/data/%s/files/assets/";
-    private final String NATIVE_PATH = FileUtil.getExternalStorageDir() + "/.sketchware/data/%s/files/native_libs/";
+    private final String ASSETS_PATH = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/%s/files/assets/";
+    private final String NATIVE_PATH = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/%s/files/native_libs/";
     private final ExtraMenuBlock extraMenuBlock;
     private final FilePathUtil fpu;
     private final FilePickerDialog fpd;

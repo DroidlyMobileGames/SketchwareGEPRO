@@ -43,7 +43,7 @@ public class ActComponentsDialog extends Dialog {
 
     public ActComponentsDialog(Activity activity, String sc_id, String activityName) {
         super(activity);
-        ACTIVITIES_COMPONENTS_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchware/data/" + sc_id + "/Injection/androidmanifest/activities_components.json";
+        ACTIVITIES_COMPONENTS_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/Injection/androidmanifest/activities_components.json";
         this.activity = activity;
         this.activityName = activityName;
     }

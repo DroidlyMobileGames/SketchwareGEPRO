@@ -348,7 +348,7 @@ public class ComponentsHandler {
     // √ add components to sk
     //structure : list.add(new ComponentBean(27));
     public static void add(ArrayList<ComponentBean> list) {
-        list.add(new ComponentBean(36));
+        //list.add(new ComponentBean(36));
 
         for (int i = 0; i < cachedCustomComponents.size(); i++) {
             HashMap<String, Object> component = cachedCustomComponents.get(i);

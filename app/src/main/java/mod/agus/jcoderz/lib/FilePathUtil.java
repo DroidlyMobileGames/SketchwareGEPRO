@@ -6,7 +6,7 @@ import java.io.File;
 
 public class FilePathUtil {
 
-    private static final File SKETCHWARE_DATA = new File(Environment.getExternalStorageDirectory(), ".sketchware/data/");
+    private static final File SKETCHWARE_DATA = new File(Environment.getExternalStorageDirectory(), ".sketchwarege/data/");
     private static final File SKETCHWARE_LOCAL_LIBS = new File(Environment.getExternalStorageDirectory(), ".sketchwarege/libs/local_libs");
 
     public static String getLastCompileLogPath(String sc_id) {
@@ -35,6 +35,9 @@ public class FilePathUtil {
 
     public String getPathJava(String sc_id) {
         return new File(SKETCHWARE_DATA, sc_id + "/files/java").getAbsolutePath();
+    }
+    public String getPathComponents() {
+        return new File(SKETCHWARE_DATA, "/system").getAbsolutePath();
     }
 
     public String getPathKotlinCompilerPlugins(String sc_id) {

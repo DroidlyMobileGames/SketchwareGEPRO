@@ -347,7 +347,8 @@ public class FileUtil {
                 }
 
                 final Uri contentUri = ContentUris
-                        .withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
+                        .withAppendedId(Uri.parse("content://downloads/public_downloads"),
+                                Long.parseLong(id));
 
                 path = getDataColumn(context, contentUri, null, null);
             } else if (isMediaDocument(uri)) {

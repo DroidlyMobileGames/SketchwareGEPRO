@@ -18,8 +18,8 @@ import mod.jbk.util.OldResourceIdMapper;
 
 public class EventsHandler {
 
-    public static final String CUSTOM_EVENTS_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchware/data/system/events.json";
-    public static final String CUSTOM_LISTENERE_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchware/data/system/listeners.json";
+    public static final String CUSTOM_EVENTS_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/system/events.json";
+    public static final String CUSTOM_LISTENERE_FILE_PATH = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/system/listeners.json";
     private static ArrayList<HashMap<String, Object>> cachedCustomEvents = readCustomEvents();
     private static ArrayList<HashMap<String, Object>> cachedCustomListeners = readCustomListeners();
 

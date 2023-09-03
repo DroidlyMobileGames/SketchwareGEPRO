@@ -87,9 +87,11 @@ import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
+import mod.AddGameEngineComponents;
 import mod.SketchwareUtil;
 import mod.agus.jcoderz.editor.manage.permission.ManagePermissionActivity;
 import mod.agus.jcoderz.editor.manage.resource.ManageResourceActivity;
+import mod.agus.jcoderz.lib.FilePathUtil;
 import mod.agus.jcoderz.lib.FileUtil;
 import mod.hey.studios.activity.managers.assets.ManageAssetsActivity;
 import mod.hey.studios.activity.managers.java.ManageJavaActivity;
@@ -385,6 +387,10 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
             sc_id = getIntent().getStringExtra("sc_id");
         } else {
             sc_id = savedInstanceState.getString("sc_id");
+        }
+
+        if (!FileUtil.isExistFile(new FilePathUtil().getPathComponents() + "/component.json")){
+            new AddGameEngineComponents(this);//Only adds if not already added
         }
 
         r = new DB(getApplicationContext(), "P1");

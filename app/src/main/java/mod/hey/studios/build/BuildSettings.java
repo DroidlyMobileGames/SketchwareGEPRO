@@ -27,6 +27,6 @@ public class BuildSettings extends ProjectSettings {
 
     @Override
     public String getPath() {
-        return FileUtil.getExternalStorageDir() + "/.sketchware/data/" + sc_id + "/build_config";
+        return FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/build_config";
     }
 }
