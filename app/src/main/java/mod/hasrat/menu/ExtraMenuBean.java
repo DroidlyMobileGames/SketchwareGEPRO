@@ -690,6 +690,7 @@ public class ExtraMenuBean {
                         menus.add(componentBean.componentId);
                     }
                 }
+                loadType(title);
         }
 
         for (String menuArg : menus) {
@@ -728,6 +729,20 @@ public class ExtraMenuBean {
             dialog.dismiss();
         });
         dialog.show();
+    }
+    private ArrayList loadType(String type) {
+        ArrayList<String> types = new ArrayList<>();
+        ArrayList<String> customVariables2 = jC.a(sc_id).e(javaName, 6);
+
+        for (int i = 0; i < customVariables2.size(); i++) {
+            String variable = customVariables2.get(i);
+            String temp = variable.replaceAll("\\b(?:public|private|protected|static|final)\\s\\b", "");
+            String[] split = temp.split(" ");
+            if (split[0].equals(type)) {
+                types.add(split[1]);
+            }
+        }
+        return types;
     }
 
     private ArrayList<String> getVarMenus(int type) {
