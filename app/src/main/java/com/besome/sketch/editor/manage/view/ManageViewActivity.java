@@ -206,7 +206,7 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {   ///c
         if (selecting) {
             a(false);
         } else {
