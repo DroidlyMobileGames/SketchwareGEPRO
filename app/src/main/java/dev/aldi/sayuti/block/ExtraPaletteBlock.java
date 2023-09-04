@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import a.a.a.jC;
 import a.a.a.kq;
+import mod.CustomVariableUtil;
 import mod.SketchwareUtil;
 import mod.agus.jcoderz.beans.ViewBeans;
 import mod.agus.jcoderz.lib.FileResConfig;
@@ -195,6 +196,24 @@ public class ExtraPaletteBlock {
             String variable = customVariables2.get(i);
             String temp = variable.replaceAll("\\b(?:public|private|protected|static|final)\\s\\b", "");
             String[] split = temp.split(" ");
+            //DROIDLY MOBILE
+            /*if (split.length == 2 || split.length == 4) {
+                logicEditor.a(split[1], "v", split[0], "getVar").setTag(variable);
+                String variableType = CustomVariableUtil.getVariableType(variable);
+                String variableName = CustomVariableUtil.getVariableName(variable);
+                if (variableType != null && variableName != null) {
+                    String type = switch (variableType) {
+                        case "boolean" -> "b";
+                        case "String" -> "s";
+                        case "double", "int", "float", "long" -> "d";
+                        default -> "v";
+                    };
+                    logicEditor.a(variableName, type, variableType, "getVar").setTag(variable);
+                } else {
+                    SketchwareUtil.toastError("Found invalid data of Custom Variable #" + (i + 1) + ": \"" + variable + "\"");
+                    logicEditor.a("Invalid: " + variable, 0xfff44336);
+                }
+            }*/
             if (split.length == 2 || split.length == 4) {
                 logicEditor.a(split[1], "v", split[0], "getVar").setTag(variable);
             } else {
@@ -345,8 +364,13 @@ public class ExtraPaletteBlock {
                     String[] splitName = name.split(" ");
                     if (splitName.length > 1) {
                         logicEditor.a(splitName[1], "l", "List", "getVar").setTag(name);
-                    } else {
-                        SketchwareUtil.toastError("Found invalid List data, type:" + type + ", name: \"" + name + "\"");
+                        String variableName = CustomVariableUtil.getVariableName(name);
+                        if (variableName != null) {
+                            logicEditor.a(variableName, "l", "List", "getVar").setTag(name);
+                        } else {
+                            SketchwareUtil.toastError("Found invalid List data, type:" + type + ", name: \"" + name + "\"");
+                            logicEditor.a("Invalid: " + name, 0xfff44336);
+                        }
                     }
                 }
             }

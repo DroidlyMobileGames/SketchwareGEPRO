@@ -58,6 +58,7 @@ import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -135,6 +136,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
     private ViewEditorFragment viewTabAdapter = null;
     private rs eventTabAdapter = null;
     private br componentTabAdapter = null;
+    private String getGameview = "";
 
     private final ActivityResultLauncher<Intent> openLibraryManager = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
@@ -160,7 +162,8 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
             }
         }
     });
-    private final ActivityResultLauncher<Intent> openCollectionManager = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    private final ActivityResultLauncher<Intent> openCollectionManager =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
             viewTabAdapter.j();
         }
@@ -497,7 +500,21 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         });
         viewPager.getAdapter().notifyDataSetChanged();
         ((TabLayout) findViewById(R.id.tab_layout)).setupWithViewPager(viewPager);
+
+        ArrayList<ProjectFileBean> projectFiles = jC.b(sc_id).b();
+        ArrayList<String> javanames = new ArrayList<>();
+        if (projectFiles != null) {
+            for (int i = 0; i < projectFiles.size(); i++) {
+                javanames.add(projectFiles.get(i).fileName);
+            }
+            if (!javanames.contains("gameview")){
+                getGameview = "poop";
+                launchActivity(ManageViewActivity.class,openViewManager);
+            }
+        }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -868,10 +885,13 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
     }
 
     @SafeVarargs
-    private final void launchActivity(Class<? extends Activity> toLaunch, ActivityResultLauncher<Intent> optionalLauncher, Pair<String, String>... extras) {
+    private final void launchActivity(Class<? extends Activity> toLaunch,
+                                      ActivityResultLauncher<Intent> optionalLauncher,
+                                      Pair<String, String>... extras) {
         Intent intent = new Intent(getApplicationContext(), toLaunch);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("sc_id", sc_id);
+        intent.putExtra("checkgameview", getGameview);
         for (Pair<String, String> extra : extras) {
             intent.putExtra(extra.first, extra.second);
         }

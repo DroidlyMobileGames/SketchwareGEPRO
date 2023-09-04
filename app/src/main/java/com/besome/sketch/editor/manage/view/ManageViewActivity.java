@@ -211,9 +211,10 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
             a(false);
         } else {
             k();
-
             try {
-                new Handler().postDelayed(() -> (new a(getApplicationContext())).execute(), 500L);
+                new Handler().postDelayed(() -> (
+                        new a(getApplicationContext())).execute(),
+                        500L);
             } catch (Exception e) {
                 e.printStackTrace();
                 h();
@@ -295,6 +296,10 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
         tabLayout.setupWithViewPager(viewPager);
         s = findViewById(R.id.fab);
         s.setOnClickListener(this);
+
+        if (getIntent().getStringExtra("checkgameview").equals("poop")){
+            onBackPressed();
+        }
     }
 
     @Override

@@ -194,6 +194,15 @@ public class Fw extends qA {
                 activitiesList.setVisibility(View.VISIBLE);
                 tvGuide.setVisibility(View.GONE);
             }
+            if (activitiesFiles.size()<2){
+                ProjectFileBean var8 =
+                        new ProjectFileBean(0,
+                                "gameview", 0, 0,
+                                true, true, false, false);
+
+                a(var8);
+                projectFilesAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -277,11 +286,12 @@ public class Fw extends qA {
             return activitiesFiles != null ? activitiesFiles.size() : 0;
         }
 
+        //DROIDLY MOBILE
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
             viewHolder.imgActivity.setVisibility(View.VISIBLE);
             viewHolder.deleteImgContainer.setVisibility(View.GONE);
-            if (position == 0) {
+            if (position == 0 || position == 1) {
                 viewHolder.checkBox.setVisibility(View.GONE);
             } else {
                 viewHolder.deleteImgContainer.setVisibility(k ? View.VISIBLE : View.GONE);
@@ -290,8 +300,14 @@ public class Fw extends qA {
 
             ProjectFileBean projectFileBean = activitiesFiles.get(position);
             viewHolder.imgActivity.setImageResource(getImageResByOptions(projectFileBean.options));
-            viewHolder.tvScreenName.setText(projectFileBean.getXmlName());
-            viewHolder.tvActivityName.setText(projectFileBean.getJavaName());
+            viewHolder.tvScreenName.setText(projectFileBean.getJavaName());
+            viewHolder.tvActivityName.setText(projectFileBean.getXmlName());
+            if (projectFileBean.getActivityName().equals("MainActivity")){
+                viewHolder.tvActivityName.setText("Content View");
+            }
+            if (projectFileBean.getActivityName().equals("GameviewActivity")){
+                viewHolder.tvActivityName.setText("Game Loader");
+            }
             viewHolder.imgDelete.setImageResource(projectFileBean.isSelected ? R.drawable.ic_checkmark_green_48dp : R.drawable.ic_trashcan_white_48dp);
         }
 
@@ -329,27 +345,33 @@ public class Fw extends qA {
                 imgPresetSettings = itemView.findViewById(R.id.img_preset_setting);
                 checkBox.setVisibility(View.GONE);
                 viewItem.setOnClickListener(view -> {
-                    if (!mB.a()) {
-                        layoutPosition = getLayoutPosition();
-                        if (Fw.this.k) {
-                            if (layoutPosition != 0) {
-                                checkBox.setChecked(!checkBox.isChecked());
-                                activitiesFiles.get(layoutPosition).isSelected = checkBox.isChecked();
-                                notifyItemChanged(layoutPosition);
+                    //DROIDLY MOBILE
+                    if (!tvScreenName.getText().toString().equals("GameviewActivity.java")) {
+                        if (!mB.a()) {
+                            layoutPosition = getLayoutPosition();
+                            if (Fw.this.k) {
+                                if (layoutPosition != 0) {
+                                    checkBox.setChecked(!checkBox.isChecked());
+                                    activitiesFiles.get(layoutPosition).isSelected = checkBox.isChecked();
+                                    notifyItemChanged(layoutPosition);
+                                }
+                            } else {
+                                Intent intent = new Intent(getContext(), AddViewActivity.class);
+                                intent.putExtra("project_file", activitiesFiles.get(layoutPosition));
+                                intent.putExtra("request_code", REQUEST_CODE_ADD_VIEW_ACTIVITY);
+                                startActivityForResult(intent, REQUEST_CODE_ADD_VIEW_ACTIVITY);
                             }
-                        } else {
-                            Intent intent = new Intent(getContext(), AddViewActivity.class);
-                            intent.putExtra("project_file", activitiesFiles.get(layoutPosition));
-                            intent.putExtra("request_code", REQUEST_CODE_ADD_VIEW_ACTIVITY);
-                            startActivityForResult(intent, REQUEST_CODE_ADD_VIEW_ACTIVITY);
                         }
                     }
                 });
+
                 viewItem.setOnLongClickListener(view -> {
-                    ((ManageViewActivity) getActivity()).a(true);
-                    layoutPosition = getLayoutPosition();
-                    checkBox.setChecked(!checkBox.isChecked());
-                    activitiesFiles.get(layoutPosition).isSelected = checkBox.isChecked();
+                    if (!tvScreenName.getText().toString().equals("GameviewActivity.java")) {
+                        ((ManageViewActivity) getActivity()).a(true);
+                        layoutPosition = getLayoutPosition();
+                        checkBox.setChecked(!checkBox.isChecked());
+                        activitiesFiles.get(layoutPosition).isSelected = checkBox.isChecked();
+                    }
                     return true;
                 });
                 imgPresetSettings.setOnClickListener(view -> {

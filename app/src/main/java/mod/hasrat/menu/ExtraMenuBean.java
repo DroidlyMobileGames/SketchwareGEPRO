@@ -19,6 +19,8 @@ import com.besome.sketch.editor.LogicEditorActivity;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sketchware.remodgepro.R;
 
 import java.io.File;
@@ -35,6 +37,7 @@ import a.a.a.jC;
 import a.a.a.uq;
 import a.a.a.wB;
 import dev.aldi.sayuti.block.ExtraMenuBlock;
+import mod.CustomVariableUtil;
 import mod.agus.jcoderz.editor.manage.block.makeblock.BlockMenu;
 import mod.agus.jcoderz.lib.FilePathUtil;
 import mod.agus.jcoderz.lib.FileResConfig;
@@ -45,6 +48,7 @@ import mod.hilal.saif.activities.tools.ConfigActivity;
 import mod.hilal.saif.asd.AsdDialog;
 import mod.hilal.saif.asd.asdforall.AsdAllEditor;
 import mod.hilal.saif.asd.old.AsdOldDialog;
+import shadow.bundletool.com.android.tools.r8.internal.Sy;
 
 public class ExtraMenuBean {
 
@@ -62,6 +66,8 @@ public class ExtraMenuBean {
     public static final String[] pixelFormat = {"OPAQUE", "RGBA_1010102", "RGBA_8888", "RGBA_F16", "RGBX_8888", "RGB_565", "RGB_888", "TRANSLUCENT", "TRANSPARENT", "UNKNOWN"};
     public static final String[] patternFlags = {"CANON_EQ", "CASE_INSENSITIVE", "COMMENTS", "DOTALL", "LITERAL", "MULTILINE", "UNICODE_CASE", "UNIX_LINES"};
     public static final String[] permission;
+    private static final int VARIABLE_NAME = 4;
+    private static final int VARIABLE_TYPE = 3;
 
     static {
         ArrayList<String> permissions = new ArrayList<>();
@@ -235,7 +241,7 @@ public class ExtraMenuBean {
         View rootView = wB.a(logicEditor, R.layout.property_popup_selector_single);
         ViewGroup viewGroup = rootView.findViewById(R.id.rg_content);
         ArrayList<String> menus = new ArrayList<>();
-        String title;
+        String title = null;
         switch (menuName) {
             case "varInt":
                 title = Helper.getResString(R.string.logic_editor_title_select_variable_number);
@@ -275,6 +281,10 @@ public class ExtraMenuBean {
             case "list":
                 title = Helper.getResString(R.string.logic_editor_title_select_list);
                 menus = projectDataManager.c(javaName);
+                for (String variable : projectDataManager.c(javaName)) {
+                    String variableName = CustomVariableUtil.getVariableName(variable);
+                    menus.add(variableName != null ? variableName : variable);
+                }
                 break;
 
             case "intent":
@@ -536,46 +546,7 @@ public class ExtraMenuBean {
                 }
                 break;
 
-            case "activity":
-                ArrayList<String> activityMenu = new ArrayList<>();
-                title = Helper.getResString(R.string.logic_editor_title_select_activity);
-                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
-                    activityMenu.add(projectFileBean.getActivityName());
-                }
-                for (String activity : activityMenu) {
-                    viewGroup.addView(logicEditor.e(activity));
-                }
-                activityMenu = new ArrayList<>();
-                if (FileUtil.isExistFile(fpu.getManifestJava(sc_id))) {
-                    for (String activity : frc.getJavaManifestList()) {
-                        if (activity.contains(".")) {
-                            activityMenu.add(activity.substring(1 + activity.lastIndexOf(".")));
-                        }
-                    }
-                    if (activityMenu.size() >= 1) {
-                        TextView txt = new TextView(logicEditor);
-                        txt.setText("Custom Activities");
-                        txt.setPadding(
-                                (int) getDip(2),
-                                (int) getDip(4),
-                                (int) getDip(4),
-                                (int) getDip(4)
-                        );
-                        txt.setTextSize(14f);
-                        viewGroup.addView(txt);
-                    }
-                    for (String activity : activityMenu) {
-                        viewGroup.addView(logicEditor.e(activity));
-                    }
-                }
-                break;
 
-            case "customViews":
-                title = "Select a Custom View";
-                for (ProjectFileBean projectFileBean : jC.b(sc_id).c()) {
-                    menus.add(projectFileBean.fileName);
-                }
-                break;
 
             case "SignButtonColor":
                 title = "Select a SignInButton Color";
@@ -645,6 +616,7 @@ public class ExtraMenuBean {
                 menus.addAll(new ArrayList<>(Arrays.asList(pixelFormat)));
                 break;
 
+
             case "Variable":
                 title = "Select a Variable";
                 for (Pair<Integer, String> integerStringPair : projectDataManager.k(javaName)) {
@@ -668,13 +640,64 @@ public class ExtraMenuBean {
                     }
                 }
                 break;
+                //DROIDLY MOBILE
+
+            case "activity"://Loads all activities
+                ArrayList<String> activityMenu = new ArrayList<>();
+                title = Helper.getResString(R.string.logic_editor_title_select_activity);
+                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
+                    activityMenu.add(projectFileBean.getActivityName());
+                }
+                for (String activity : activityMenu) {
+                    viewGroup.addView(logicEditor.e(activity));
+                }
+                activityMenu = new ArrayList<>();
+                if (FileUtil.isExistFile(fpu.getManifestJava(sc_id))) {
+                    for (String activity : frc.getJavaManifestList()) {
+                        if (activity.contains(".")) {
+                            activityMenu.add(activity.substring(1 + activity.lastIndexOf(".")));
+                        }
+                    }
+                    if (activityMenu.size() >= 1) {
+                        TextView txt = new TextView(logicEditor);
+                        txt.setText("Custom Activities");
+                        txt.setPadding(
+                                (int) getDip(2),
+                                (int) getDip(4),
+                                (int) getDip(4),
+                                (int) getDip(4)
+                        );
+                        txt.setTextSize(14f);
+                        viewGroup.addView(txt);
+                    }
+                    for (String activity : activityMenu) {
+                        viewGroup.addView(logicEditor.e(activity));
+                    }
+                }
+                break;
+
+            case "customViews":
+                title = "Select a Custom View";
+                for (ProjectFileBean projectFileBean : jC.b(sc_id).c()) {
+                    menus.add(projectFileBean.fileName);
+                }
+                break;
+                /*case "Add your own here":
+                title = "Select a Bitmap Variable";
+                menus = new Gson().fromJson(new Gson().toJson(loadType("Add your own here")),
+                        new TypeToken<ArrayList<String>>() {
+                        }.getType());
+                break;*/
 
             default:
                 Pair<String, String[]> menuPair = BlockMenu.getMenu(menu.getMenuName());
                 title = menuPair.first;
                 menus = new ArrayList<>(Arrays.asList(menuPair.second));
                 extraMenuBlock.a(menu, dialog, menus);
-
+                //DROIDLY MOBILE EDIT
+                /*menus = new Gson().fromJson(new Gson().toJson(loadType(menuName)),
+                        new TypeToken<ArrayList<String>>() {
+                        }.getType());*/
                 for (String s : projectDataManager.e(javaName, 5)) {
                     Matcher matcher2 = Pattern.compile("^(\\w+)[\\s]+(\\w+)").matcher(s);
                     while (matcher2.find()) {
@@ -684,18 +707,26 @@ public class ExtraMenuBean {
                         }
                     }
                 }
+                for (String variable : projectDataManager.e(javaName, 6)) {
+                    String variableType = CustomVariableUtil.getVariableType(variable);
+                    String variableName = CustomVariableUtil.getVariableName(variable);
+                    if (variableType != null && menuName.equals(variableType)) {
+                        title = "Select a " + variableType + " Variable";
+                        menus.add(variableName);
+                    }
+                }
                 for (ComponentBean componentBean : projectDataManager.e(javaName)) {
                     if (componentBean.type > 36 && menuName.equals(ComponentBean.getComponentTypeName(componentBean.type))) {
                         title = "Select a " + ComponentBean.getComponentTypeName(componentBean.type);
                         menus.add(componentBean.componentId);
                     }
                 }
-                loadType(title);
         }
 
         for (String menuArg : menus) {
             viewGroup.addView(logicEditor.e(menuArg));
         }
+
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             if (viewGroup.getChildAt(i) instanceof RadioButton) {
                 RadioButton rb = (RadioButton) viewGroup.getChildAt(i);
@@ -708,6 +739,7 @@ public class ExtraMenuBean {
 
         dialog.b(title);
         dialog.a(rootView);
+        //SELECT CANCEL BUTTONS
         dialog.b(Helper.getResString(R.string.common_word_select), view -> {
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 if (viewGroup.getChildAt(i) instanceof RadioButton) {
@@ -730,6 +762,7 @@ public class ExtraMenuBean {
         });
         dialog.show();
     }
+    //DROIDLY MOBILE EDIT
     private ArrayList loadType(String type) {
         ArrayList<String> types = new ArrayList<>();
         ArrayList<String> customVariables2 = jC.a(sc_id).e(javaName, 6);
@@ -744,6 +777,15 @@ public class ExtraMenuBean {
         }
         return types;
     }
+
+    public static final Pattern PATTERN_CUSTOM_VARIABLE = Pattern.compile(
+            "\\b((private|public|protected|static|final|transient|volatile)\\s+)*"
+                    + "([\\w$]+(?:\\s*,\\s*[\\w$]+)*"
+                    + "(?:\\s*<[a-zA-Z0-9.,_ ?<>\\[\\]]*>)?"
+                    + "(?:\\[\\])*)?\\s+"
+                    + "([\\w$]+)"
+                    + "(?:\\s*=\\s*([^;]+))?\\s*"
+    );
 
     private ArrayList<String> getVarMenus(int type) {
         return projectDataManager.e(javaName, type);

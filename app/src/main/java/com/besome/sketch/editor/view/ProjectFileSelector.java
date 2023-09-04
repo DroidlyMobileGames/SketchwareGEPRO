@@ -215,6 +215,16 @@ public class ProjectFileSelector extends LinearLayout implements View.OnClickLis
         intent.putExtra("is_custom_view", currentFileIsCustomView);
         ((DesignActivity) getContext()).changeOpenFile.launch(intent);
     }
+    private String setClassType(ProjectFileBean bean){
+        String classType = "";
+        if (bean.getActivityName().equals("MainActivity")){
+            classType = "Content View";
+        }
+        if (bean.getActivityName().equals("GameviewActivity")){
+            classType = "Game Loader";
+        }
+        return classType;
+    }
 
     private class JavaFileAdapter extends RecyclerView.Adapter<JavaFileAdapter.ViewHolder> {
 
@@ -246,7 +256,11 @@ public class ProjectFileSelector extends LinearLayout implements View.OnClickLis
             String javaName = projectFileBean.getJavaName();
             String xmlName = projectFileBean.getXmlName();
             holder.javaFileName.setText(javaName);
-            holder.xmlFileName.setText(xmlName);
+            //holder.xmlFileName.setText(xmlName);
+            holder.xmlFileName.setTextSize(1,12);
+            if (projectFileBean!=null) {
+                holder.xmlFileName.setText(setClassType(projectFileBean));
+            }
         }
 
         @Override
