@@ -115,6 +115,7 @@ import mod.jbk.diagnostic.CompileErrorSaver;
 import mod.jbk.diagnostic.MissingFileException;
 import mod.jbk.util.LogUtil;
 import mod.khaled.logcat.LogReaderActivity;
+import shadow.bundletool.com.android.tools.r8.internal.Sy;
 
 public class DesignActivity extends BaseAppCompatActivity implements OnClickListener {
     private ImageView xmlLayoutOrientation;
@@ -137,6 +138,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
     private rs eventTabAdapter = null;
     private br componentTabAdapter = null;
     private String getGameview = "";
+    private boolean checkGameview = false;
 
     private final ActivityResultLauncher<Intent> openLibraryManager = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
@@ -391,7 +393,6 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         } else {
             sc_id = savedInstanceState.getString("sc_id");
         }
-
         if (!FileUtil.isExistFile(new FilePathUtil().getPathComponents() + "/component.json")){
             new AddGameEngineComponents(this);//Only adds if not already added
         }
@@ -500,7 +501,11 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         });
         viewPager.getAdapter().notifyDataSetChanged();
         ((TabLayout) findViewById(R.id.tab_layout)).setupWithViewPager(viewPager);
+        checkGameviewExists();
 
+    }
+
+    private void checkGameviewExists() {
         ArrayList<ProjectFileBean> projectFiles = jC.b(sc_id).b();
         ArrayList<String> javanames = new ArrayList<>();
         if (projectFiles != null) {
@@ -509,11 +514,14 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
             }
             if (!javanames.contains("gameview")){
                 getGameview = "poop";
+                checkGameview = true;
                 launchActivity(ManageViewActivity.class,openViewManager);
+            }else {
+                checkGameview = false;
             }
+            System.out.println("GET POOP " + javanames);
         }
     }
-
 
 
     @Override
@@ -556,6 +564,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        getGameview = "";
         if (!j()) {
             finish();
         }
@@ -564,6 +573,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         if (freeMegabytes < 100L && freeMegabytes > 0L) {
             warnAboutInsufficientStorageSpace();
         }
+
     }
 
     @Override
@@ -891,7 +901,11 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         Intent intent = new Intent(getApplicationContext(), toLaunch);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("sc_id", sc_id);
-        intent.putExtra("checkgameview", getGameview);
+        if (checkGameview) {
+            intent.putExtra("checkgameview", getGameview);
+        }else {
+            intent.putExtra("checkgameview", "");
+        }
         for (Pair<String, String> extra : extras) {
             intent.putExtra(extra.first, extra.second);
         }

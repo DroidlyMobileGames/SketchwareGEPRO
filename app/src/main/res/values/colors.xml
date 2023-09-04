@@ -5,13 +5,13 @@
     <color name="darkPrimaryDark">#000000</color>
 
     <color name="bottom_bar_background">#ffa1887f</color>
-    <color name="browser_actions_bg_grey">#fff5f5f5</color>
+    <color name="browser_actions_bg_grey">#000000</color>
     <color name="browser_actions_divider_color">#1e000000</color>
     <color name="browser_actions_text_color">#de000000</color>
     <color name="browser_actions_title_color">#ff646464</color>
     <color name="color_accent">#3e3e42</color>
     <color name="color_btn_blue_highlight">#ff005e8a</color>
-    <color name="color_btn_blue_normal">#FFFFFF</color>
+    <color name="color_btn_blue_normal">#000000</color>
     <color name="color_btn_green_highlight">#ff1d7a73</color>
     <color name="color_btn_ltblue_highlight">#ff0b96d9</color>
     <color name="color_btn_ltblue_normal">#ff33b8f5</color>
@@ -23,12 +23,12 @@
     <color name="color_chk_white_highlight">#ffffccbc</color>
     <color name="color_chk_white_normal">#fff5f5f5</color>
     <color name="color_control_highlight">#20008dcd</color>
-    <color name="color_control_normal">#FFFFFF</color>
+    <color name="color_control_normal">#000000</color>
     <color name="color_primary">#3e3e42</color>
     <color name="color_primary_alpha">#FFFFFF</color>
-    <color name="color_primary_dark">#FFFFFF</color>
+    <color name="color_primary_dark">#000000</color>
     <color name="color_ripple">#b2000000</color>
-    <color name="color_secondary">#FFFFFF</color>
+    <color name="color_secondary">#000000</color>
     <color name="design_menu_bg">#ffffffff</color>
     <color name="design_menu_text_color">#ff000000</color>
     <color name="design_tab_background">#3e3e42</color>
@@ -71,7 +71,7 @@
     <color name="scratch_start_gradient">#ffd0f1ff</color>
     <color name="swipe_refresh">#ffffffff</color>
     <color name="swipe_refresh_bg">#ff008dcd</color>
-    <color name="tool_bar_text_color">#ffffffff</color>
+    <color name="tool_bar_text_color">#000000</color>
     <color name="transparent">#00ffffff</color>
     <color name="darkGrey">#ff272822</color>
     <color name="black">#ff000000</color>
@@ -79,11 +79,11 @@
     <color name="gold">#ffe6b121</color>
     <color name="monokia_pro_green">#ff9ccc6b</color>
     <color name="monokia_pro_black">#ff2d2a2e</color>
-    <color name="monokia_pro_white">#fffcfcfa</color>
+    <color name="monokia_pro_white">#000000</color>
     <color name="monokia_pro_pink">#ffff6188</color>
     <color name="monokia_pro_sky">#ff78dce8</color>
     <color name="monokia_pro_orange">#ffffd866</color>
     <color name="monokia_pro_purple">#ffab9df2</color>
     <color name="monokia_pro_grey">#ff727072</color>
-    <color name="colorBottomBarSW">#FFFFFF</color>
+    <color name="colorBottomBarSW">#000000</color>
 </resources>
