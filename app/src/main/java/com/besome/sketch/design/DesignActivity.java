@@ -519,7 +519,6 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
             }else {
                 checkGameview = false;
             }
-            System.out.println("GET POOP " + javanames);
         }
     }
 
