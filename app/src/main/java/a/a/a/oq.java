@@ -22,7 +22,7 @@ public class oq {
      */
     public static int a(String eventName) {
         return switch (eventName) {
-            case "initializeLogic", "onBackPressed", "onPostCreate", "onStart", "onStop", "onDestroy", "onResume", "onPause", "moreBlock" ->
+            case "initializeGame", "onBackPressed", "onPostCreate", "onStart", "onStop", "onDestroy", "onResume", "onPause", "moreBlock" ->
                     R.drawable.bg_event_type_activity;
             case "onBannerAdClicked", "onClick" -> R.drawable.event_on_click_48dp;
             case "onCheckedChange" -> R.drawable.event_on_check_changed_48dp;
@@ -84,7 +84,9 @@ public class oq {
 
     public static String a(String eventName, Context context) {
         return switch (eventName) {
-            case "initializeLogic" -> Helper.getResString(R.string.event_initialize);
+            case "initializeGame" -> Helper.getResString(R.string.event_initialize);
+            case "update" -> Helper.getResString(R.string.event_update);
+            case "draw" -> Helper.getResString(R.string.event_draw);
             case "onBackPressed" -> Helper.getResString(R.string.event_onbackpressed);
             case "onPostCreate" -> Helper.getResString(R.string.event_onpostcreated);
             case "onStart" -> Helper.getResString(R.string.event_onstart);
@@ -92,8 +94,6 @@ public class oq {
             case "onDestroy" -> Helper.getResString(R.string.event_ondestroy);
             case "onResume" -> Helper.getResString(R.string.event_onresume);
             case "onPause" -> Helper.getResString(R.string.event_onpause);
-            case "onPageStarted" -> Helper.getResString(R.string.event_onpagestarted);
-            case "onPageFinished" -> Helper.getResString(R.string.event_onpagefinished);
             case "moreBlock" -> Helper.getResString(R.string.event_definefunc);
             case "onClick" -> Helper.getResString(R.string.event_onclick);
             case "onCheckedChange" -> Helper.getResString(R.string.event_oncheckchanged);

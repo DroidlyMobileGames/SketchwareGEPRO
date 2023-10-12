@@ -792,8 +792,8 @@ public class ViewPropertyItems extends LinearLayout implements Kw, View.OnClickL
                 }
 
                 ArrayList<String> events = new ArrayList<>();
-                if (beanMap.containsKey("onCreate_initializeLogic")) {
-                    events.add("onCreate_initializeLogic");
+                if (beanMap.containsKey("onCreate_initializeGame")) {
+                    events.add("onCreate_initializeGame");
                 }
 
                 for (Pair<String, String> moreblocks : jC.a(sc_id).i(e.getJavaName())) {

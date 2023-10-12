@@ -23,6 +23,7 @@ import mod.hey.studios.project.ProjectSettings;
 import mod.hilal.saif.android_manifest.AndroidManifestInjector;
 import mod.hilal.saif.blocks.CommandBlock;
 import mod.hilal.saif.events.LogicHandler;
+import shadow.bundletool.com.android.tools.r8.internal.Sy;
 
 public class Jx {
 
@@ -75,6 +76,8 @@ public class Jx {
     private Hx eventManager;
     private ArrayList<String> imports = new ArrayList<>();
     private String onCreateEventCode = "";
+    private String onCreateEventCode2 = "";
+    private String onCreateEventCode3 = "";
 
     public Jx(jq jqVar, ProjectFileBean projectFileBean, eC eCVar) {
         packageName = jqVar.packageName;
@@ -92,7 +95,8 @@ public class Jx {
     }
 
     public String initializeLogic() {
-        ArrayList<BlockBean> blocks = jC.a(projectDataManager.a).a(projectFileBean.getJavaName(), "initializeLogic_initializeLogic");
+        ArrayList<BlockBean> blocks = jC.a(projectDataManager.a).a(projectFileBean.getJavaName(),
+                "initializeGame_initializeGame");
         return Lx.j(new Fx(projectFileBean.getActivityName(), buildConfig, "", blocks).a(), false);
     }
 
@@ -332,12 +336,12 @@ public class Jx {
                 sb.append("surfaceHolder = getHolder();").append(EOL);
                 sb.append("surfaceHolder.addCallback(this);").append(EOL);
                 sb.append("gameLoop = new GameLoop(this,surfaceHolder);").append(EOL);
-                sb.append("initializeLogic();");
+                sb.append("initializeGame();");
             }else {
                 sb.append("GameviewActivity gameview;").append(EOL);
                 sb.append("public ".concat(projectFileBean.getActivityName().concat("(GameviewActivity gameview){"))).append(EOL);
                 sb.append("this.gameview = gameview;").append(EOL);
-                sb.append("initializeLogic();");
+                sb.append("initializeGame();");
             }
         }
         sb.append(EOL);
@@ -437,7 +441,7 @@ public class Jx {
         sb.append(EOL);
         sb.append("}").append(EOL);
         sb.append(EOL);
-        sb.append("private void initializeLogic() {").append(EOL);
+        sb.append("private void initializeGame() {").append(EOL);
 
         if (onCreateEventCode.length() > 0) {
             sb.append(onCreateEventCode).append(EOL);
@@ -445,9 +449,17 @@ public class Jx {
         sb.append("}").append(EOL);
 
         if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
-            sb.append("public void draw(Canvas canvas){\n" +
-                    "        super.draw(canvas);").append(EOL);
-            sb.append("_draw(canvas);").append(EOL);
+            sb.append("public void update(){").append(EOL);
+            if (onCreateEventCode2.length() > 0) {
+                sb.append(onCreateEventCode2).append(EOL);
+            }
+            sb.append("}").append(EOL);
+
+            sb.append("public void draw(Canvas _canvas){\n" +
+                    "super.draw(_canvas);").append(EOL);
+            if (onCreateEventCode3.length() > 0) {
+                sb.append(onCreateEventCode3).append(EOL);
+            }
             sb.append("}").append(EOL);
         }
 
@@ -534,37 +546,15 @@ public class Jx {
         }
         if (!isFragment && !settings.getValue(ProjectSettings.SETTING_DISABLE_OLD_METHODS, BuildSettings.SETTING_GENERIC_VALUE_FALSE)
                 .equals(BuildSettings.SETTING_GENERIC_VALUE_TRUE)) {
-            sb.append(getDeprecatedMethodsCode());
+            //sb.append(getDeprecatedMethodsCode());
         }
         sb.append("}").append(EOL);
         String code = sb.toString();
-
-        /*if (isFragment) {
-            code = code.replaceAll("getApplicationContext\\(\\)", "getContext().getApplicationContext()")
-                    .replaceAll("getBaseContext\\(\\)", "getActivity().getBaseContext()")
-                    .replaceAll("\\(ClipboardManager\\) getSystemService", "(ClipboardManager) getContext().getSystemService")
-                    .replaceAll("\\(Vibrator\\) getSystemService", "(Vibrator) getContext().getSystemService")
-                    .replaceAll("\\(SensorManager\\) getSystemService", "(SensorManager) getContext().getSystemService")
-                    .replaceAll("Typeface.createFromAsset\\(getAssets\\(\\)", "Typeface.createFromAsset(getContext().getAssets()")
-                    .replaceAll("= getAssets\\(\\).open", "= getContext().getAssets().open")
-                    .replaceAll("getSharedPreferences", "getContext().getSharedPreferences")
-                    .replaceAll("AlertDialog.Builder\\(this\\);", "AlertDialog.Builder(getActivity());")
-                    .replaceAll("SpeechRecognizer.createSpeechRecognizer\\(this\\);", "SpeechRecognizer.createSpeechRecognizer(getContext());")
-                    .replaceAll("new RequestNetwork\\(this\\);", "new RequestNetwork((Activity) getContext());")
-                    .replaceAll("new BluetoothConnect\\(this\\);", "new BluetoothConnect((Activity) getContext());")
-                    .replaceAll("MobileAds.getRewardedVideoAdInstance\\(this\\);", "MobileAds.getRewardedVideoAdInstance(getContext());")
-                    .replaceAll("runOnUiThread\\(new", "getActivity().runOnUiThread(new")
-                    .replaceAll(".setLayoutManager\\(new LinearLayoutManager\\(this", ".setLayoutManager(new LinearLayoutManager(getContext()")
-                    .replaceAll("getLayoutInflater\\(\\)", "getActivity().getLayoutInflater()")
-                    .replaceAll("getSupportFragmentManager\\(\\)", "getActivity().getSupportFragmentManager()");
-        } else if (buildConfig.g) {
-            code = code.replaceAll("getFragmentManager", "getSupportFragmentManager");
-        }*/
-
         return CommandBlock.CB(Lx.j(code, false));
     }
 
     private void initializeSurfaceView(StringBuilder sb) {
+
         if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
             sb.append("@Override").append(EOL);
             sb.append("public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {").append(EOL);
@@ -627,60 +617,6 @@ public class Jx {
         return Lx.a(viewType, viewBean.id, Lx.AccessModifier.PRIVATE);
     }
 
-    private String getDeprecatedMethodsCode() {
-        return EOL +
-                "@Deprecated" + EOL +
-                "public void showMessage(String _s) {" + EOL +
-                "Toast.makeText(getApplicationContext(), _s, Toast.LENGTH_SHORT).show();" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public int getLocationX(View _v) {" + EOL +
-                "int _location[] = new int[2];" + EOL +
-                "_v.getLocationInWindow(_location);" + EOL +
-                "return _location[0];" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public int getLocationY(View _v) {" + EOL +
-                "int _location[] = new int[2];" + EOL +
-                "_v.getLocationInWindow(_location);" + EOL +
-                "return _location[1];" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public int getRandom(int _min, int _max) {" + EOL +
-                "Random random = new Random();" + EOL +
-                "return random.nextInt(_max - _min + 1) + _min;" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public ArrayList<Double> getCheckedItemPositionsToArray(ListView _list) {" + EOL +
-                "ArrayList<Double> _result = new ArrayList<Double>();" + EOL +
-                "SparseBooleanArray _arr = _list.getCheckedItemPositions();" + EOL +
-                "for (int _iIdx = 0; _iIdx < _arr.size(); _iIdx++) {" + EOL +
-                "if (_arr.valueAt(_iIdx))" + EOL +
-                "_result.add((double)_arr.keyAt(_iIdx));" + EOL +
-                "}" + EOL +
-                "return _result;" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public float getDip(int _input) {" + EOL +
-                "return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, _input, getResources().getDisplayMetrics());" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public int getDisplayWidthPixels() {" + EOL +
-                "return getResources().getDisplayMetrics().widthPixels;" + EOL +
-                "}" + EOL +
-                EOL +
-                "@Deprecated" + EOL +
-                "public int getDisplayHeightPixels() {" + EOL +
-                "return getResources().getDisplayMetrics().heightPixels;" + EOL +
-                "}" + EOL;
-    }
-
     private void addImport(String classToImport) {
         if (!imports.contains(classToImport)) {
             imports.add(classToImport);
@@ -732,7 +668,27 @@ public class Jx {
         addImport("java.util.regex.*");
         addImport("java.text.*");
         addImport("org.json.*");
-        onCreateEventCode = new Fx(projectFileBean.getActivityName(), buildConfig, "onCreate_initializeLogic", projectDataManager.a(projectFileBean.getJavaName(), "onCreate_initializeLogic")).a();
+        onCreateEventCode = new
+                Fx(projectFileBean.getActivityName(), buildConfig,
+                "InitializeGame_initializeGame", projectDataManager.a(projectFileBean.getJavaName(),
+                "InitializeGame_initializeGame")).a();
+        System.out.println("POOP CHEESE" + projectFileBean.getActivityName());
+        if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+            onCreateEventCode2 = new Fx(projectFileBean.getActivityName(), buildConfig,
+                    "Update_update",
+                    projectDataManager.a(
+                            projectFileBean.getJavaName(),
+                            "Update_update")).a();
+            onCreateEventCode3 = new Fx(projectFileBean.getActivityName(), buildConfig,
+                    "Draw_draw",
+                    projectDataManager.a(
+                            projectFileBean.getJavaName(),
+                            "Draw_draw")).a();
+        }
+    }
+
+    public void handleGameview(){
+
     }
 
     private String getDrawerViewInitializer(ViewBean viewBean) {

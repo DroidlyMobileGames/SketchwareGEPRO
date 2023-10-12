@@ -54,13 +54,14 @@ public class EventsMaker extends Activity {
             ".sketchwarege/data/system/listeners.json");
     private ArrayList<HashMap<String, Object>> listMap = new ArrayList<>();
     private ListView listView;
-
+    final private ArrayList<String> checkeventnames = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_custom_attribute);
         setToolbar();
         setupViews();
+        seteventnames();
     }
 
     @Override
@@ -74,6 +75,10 @@ public class EventsMaker extends Activity {
         super.onStop();
         EventsHandler.refreshCachedCustomEvents();
         EventsHandler.refreshCachedCustomListeners();
+    }
+    private void seteventnames(){
+        checkeventnames.add("update".toLowerCase());
+        checkeventnames.add("draw".toLowerCase());
     }
 
     private void setupViews() {

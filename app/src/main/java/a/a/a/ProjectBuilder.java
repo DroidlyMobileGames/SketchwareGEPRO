@@ -154,17 +154,6 @@ public class ProjectBuilder {
         compiler.compile();
         LogUtil.d(TAG, "Compiling resources took " + (System.currentTimeMillis() - timestampResourceCompilationStarted) + " ms");
     }
-
-    /**
-     * Checks if a file on local storage differs from a file in assets, and if so,
-     * replaces the file on local storage with the one in assets.
-     * <p/>
-     * The files' sizes are compared, not content.
-     *
-     * @param fileInAssets The file in assets relative to assets/ in the APK
-     * @param targetFile   The file on local storage
-     * @return If the file in assets has been extracted
-     */
     public static boolean hasFileChanged(String fileInAssets, String targetFile) {
         long length;
         File compareToFile = new File(targetFile);

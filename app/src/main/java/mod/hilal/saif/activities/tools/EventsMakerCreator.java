@@ -45,6 +45,7 @@ public class EventsMakerCreator extends Activity {
     private String lisName;
     private MaterialButton save;
     private ImageView selectIcon;
+    final private ArrayList<String> checkeventnames = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,12 @@ public class EventsMakerCreator extends Activity {
         if (isEdit) {
             fillUp();
         }
+        seteventnames();
+    }
+
+    private void seteventnames(){
+        checkeventnames.add("update".toLowerCase());
+        checkeventnames.add("draw".toLowerCase());
     }
 
     private void fillUp() {

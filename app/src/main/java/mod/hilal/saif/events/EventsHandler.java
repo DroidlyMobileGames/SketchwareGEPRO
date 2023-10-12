@@ -40,22 +40,12 @@ public class EventsHandler {
         ArrayList<String> array = new ArrayList<>();
 
         array.add("Import");
-        array.add("initializeLogic");
-        array.add("onActivityResult");
         array.add("onBackPressed");
-        array.add("onPostCreate");
         array.add("onStart");
         array.add("onResume");
         array.add("onPause");
         array.add("onStop");
         array.add("onDestroy");
-        array.add("onSaveInstanceState");
-        array.add("onRestoreInstanceState");
-        array.add("onCreateOptionsMenu");
-        array.add("onOptionsItemSelected");
-        array.add("onCreateContextMenu");
-        array.add("onContextItemSelected");
-        array.add("onTabLayoutNewTabAdded");
 
         for (int i = cachedCustomEvents.size() - 1; i >= 0; i--) {
             HashMap<String, Object> customEvent = cachedCustomEvents.get(i);
@@ -217,8 +207,10 @@ public class EventsHandler {
     public static int getIcon(String name) {
         switch (name) {
             case "Import":
+            case "Update":
+            case "Draw":
             case "onActivityResult":
-            case "initializeLogic":
+            case "initializeGame":
             case "onBackPressed":
             case "onPostCreate":
             case "onStart":
@@ -284,12 +276,15 @@ public class EventsHandler {
         switch (name) {
             case "Import":
                 return "add custom imports";
-
+            case "Update":
+                return "Update Game";
+            case "Draw":
+                return "Draw Game";
             case "onActivityResult":
                 return "onActivityResult";
 
-            case "initializeLogic":
-                return "initializeLogic";
+            case "initializeGame":
+                return "initializeGame";
 
             case "onSwipeRefreshLayout":
                 return "On SwipeRefreshLayout swipe";
@@ -349,8 +344,19 @@ public class EventsHandler {
                         "//3b5IqsVG57gNqLi7FBO2MeOW6iI7tOustUGwcA7HKXm0o7lovZ";
 
             case "onActivityResult":
-            case "initializeLogic":
+            case "initializeGame":
                 return "";
+                //DNA MOBILE EDIT this handles events so that we can place blocks within corresponding methods
+            case "Update":
+                return "public void update() {\n" +
+                        param + "\r\n" +
+                        "}";
+
+            case "Draw":
+                return "public void draw(Canvas canvas) {\n" +
+                        "super.draw(canvas);\n" +
+                        param + "\r\n" +
+                        "}";
 
             case "onSwipeRefreshLayout":
                 // Changed from: "@Override \npublic void..."
@@ -431,7 +437,7 @@ public class EventsHandler {
     public static String getBlocks(String name) {
         switch (name) {
             case "Import":
-            case "initializeLogic":
+            case "initializeGame":
             case "onSwipeRefreshLayout":
             case " onLongClick":
             case "onPreExecute":
@@ -483,9 +489,13 @@ public class EventsHandler {
 
             case "onActivityResult":
                 return "OnActivityResult %d.requestCode %d.resultCode %m.intent.data";
-
-            case "initializeLogic":
-                return "initializeLogic";
+                //Allows to add custom blocks DNA MOBILE
+            case "initializeGame":
+                return "initializeGame";
+            case "update":
+                return "Update Game";
+            case "draw":
+                return "Draw Game %m.Canvas.canvas";
 
             case "onSwipeRefreshLayout":
                 return "when " + name + " refresh";

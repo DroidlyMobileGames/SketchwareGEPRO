@@ -157,9 +157,26 @@ public class rs extends qA implements View.OnClickListener, MoreblockImporterDia
                 eventBean.initValue();
                 moreBlocks.add(eventBean);
             }
-            EventBean eventBean2 = new EventBean(EventBean.EVENT_TYPE_ACTIVITY, -1, "onCreate", "initializeLogic");
+            EventBean eventBean2 = new EventBean(EventBean.EVENT_TYPE_ACTIVITY, -1,
+                    "InitializeGame",
+                    "initializeGame");
             eventBean2.initValue();
             activityEvents.add(eventBean2);
+            if (currentActivity.getJavaName().equals("GameviewActivity.java")) {
+            EventBean eventBean3 = new EventBean(EventBean.EVENT_TYPE_ACTIVITY, -1,
+                    "Update",
+                    "update");
+            eventBean3.initValue();
+            activityEvents.add(eventBean3);
+
+            EventBean eventBean4 = new EventBean(EventBean.EVENT_TYPE_ACTIVITY, -1,
+                    "Draw",
+                    "draw");
+            eventBean4.initValue();
+            activityEvents.add(eventBean4);
+            }
+
+
             for (EventBean eventBean : jC.a(sc_id).g(currentActivity.getJavaName())) {
                 eventBean.initValue();
                 int i = eventBean.eventType;
