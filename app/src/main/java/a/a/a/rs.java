@@ -208,6 +208,7 @@ public class rs extends qA implements View.OnClickListener, MoreblockImporterDia
                 eventAdapter.notifyDataSetChanged();
             }
         }
+
     }
 
     private void deleteMoreBlock(EventBean moreBlock, int position) {
@@ -509,14 +510,18 @@ public class rs extends qA implements View.OnClickListener, MoreblockImporterDia
                 holder.optionsLayout.hideAddToCollection();
             }
             if (eventBean.eventType == EventBean.EVENT_TYPE_ACTIVITY) {
-                if (eventBean.eventName.equals("initializeLogic")) {
+                if (eventBean.eventName.equals("initializeGame")
+                        || eventBean.eventName.equals("update")
+                        || eventBean.eventName.equals("draw") ) {
                     holder.optionsLayout.hideDelete();
                 }
                 holder.targetId.setText(eventBean.targetId);
                 holder.type.setBackgroundResource(oq.a(eventBean.eventName));
                 holder.name.setText(eventBean.eventName);
                 holder.description.setText(oq.a(eventBean.eventName, requireContext()));
-                holder.icon.setImageResource(R.drawable.widget_source);
+                //Method to change icons
+                setIcon(holder,eventBean.eventName);
+               // holder.icon.setImageResource(R.drawable.widget_source);
                 holder.preview.setVisibility(View.GONE);
                 holder.targetType.setVisibility(View.GONE);
             } else {
@@ -690,6 +695,18 @@ public class rs extends qA implements View.OnClickListener, MoreblockImporterDia
             protected Set<? extends View> getOnLongClickCollapseTriggerViews() {
                 return Set.of(root);
             }
+        }
+    }
+
+    private void setIcon(EventAdapter.ViewHolder holder, String eventName) {
+        if (eventName.equals("initializeGame")){
+            holder.icon.setImageResource(R.drawable.widget_source);
+        }
+        if (eventName.equals("update")){
+            holder.icon.setImageResource(R.drawable.update_icon);
+        }
+        if (eventName.equals("draw")){
+            holder.icon.setImageResource(R.drawable.draw_icon);
         }
     }
 }

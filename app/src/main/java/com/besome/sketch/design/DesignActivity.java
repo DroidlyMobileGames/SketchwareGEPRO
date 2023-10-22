@@ -39,6 +39,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.besome.sketch.AssetManager;
 import com.besome.sketch.beans.ProjectFileBean;
 import com.besome.sketch.common.SrcViewerActivity;
 import com.besome.sketch.editor.manage.ManageCollectionActivity;
@@ -393,6 +394,9 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         } else {
             sc_id = savedInstanceState.getString("sc_id");
         }
+
+
+
         if (!FileUtil.isExistFile(new FilePathUtil().getPathComponents() + "/component.json")){
             new AddGameEngineComponents(this);//Only adds if not already added
         }
@@ -505,6 +509,11 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
 
     }
 
+    private void copyImportantDefaults() {
+        String javaDir = FileUtil.getExternalStorageDir() + "/.sketchwarege/data/" + sc_id + "/files/java/";
+        new AssetManager(this,sc_id).copyFile("GameLoop.java",javaDir);
+    }
+
     private void checkGameviewExists() {
         ArrayList<ProjectFileBean> projectFiles = jC.b(sc_id).b();
         ArrayList<String> javanames = new ArrayList<>();
@@ -572,7 +581,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         if (freeMegabytes < 100L && freeMegabytes > 0L) {
             warnAboutInsufficientStorageSpace();
         }
-
+        copyImportantDefaults();
     }
 
     @Override
