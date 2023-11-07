@@ -464,6 +464,7 @@ public class Jx {
         }
 
         initializeSurfaceView(sb);
+        setGameLoopClass(sb);
 
         String agusComponentsOnActivityResultCode = getBillingResponseCode(buildConfig.x);
         String onActivityResultLogic = activityResult();
@@ -577,6 +578,121 @@ public class Jx {
         }
 
     }
+    public void setGameLoopClass(StringBuilder sb){
+        //PLACE GAMELOOP HERE
+        if (projectFileBean.getJavaName().equals("GameviewActivity.java")) {
+            sb.append("public class GameLoop extends Thread {\n" +
+                    "        public static final double MAX_UPS = 240.0;\n" +
+                    "        private static final double UPS_PERIOD = 1E+3 / MAX_UPS;\n" +
+                    "\n" +
+                    "        private GameviewActivity game;\n" +
+                    "        private SurfaceHolder surfaceHolder;\n" +
+                    "\n" +
+                    "        private boolean isRunning = false;\n" +
+                    "        private double averageUPS;\n" +
+                    "        private double averageFPS;\n" +
+                    "\n" +
+                    "        public GameLoop(GameviewActivity game, SurfaceHolder surfaceHolder) {\n" +
+                    "            this.game = game;\n" +
+                    "            this.surfaceHolder = surfaceHolder;\n" +
+                    "        }\n" +
+                    "\n" +
+                    "        public double getAverageUPS() {\n" +
+                    "            return averageUPS;\n" +
+                    "        }\n" +
+                    "\n" +
+                    "        public double getAverageFPS() {\n" +
+                    "            return averageFPS;\n" +
+                    "        }\n" +
+                    "\n" +
+                    "        public void startLoop() {\n" +
+                    "            Log.d(\"GameLoop.java\", \"startLoop()\");\n" +
+                    "            isRunning = true;\n" +
+                    "            start();\n" +
+                    "        }\n" +
+                    "\n" +
+                    "        @Override\n" +
+                    "        public void run() {\n" +
+                    "            Log.d(\"GameLoop.java\", \"run()\");\n" +
+                    "            super.run();\n" +
+                    "\n" +
+                    "            // Declare time and cycle count variables\n" +
+                    "            int updateCount = 0;\n" +
+                    "            int frameCount = 0;\n" +
+                    "\n" +
+                    "            long startTime;\n" +
+                    "            long elapsedTime;\n" +
+                    "            long sleepTime;\n" +
+                    "\n" +
+                    "            // Game loop\n" +
+                    "            Canvas canvas = null;\n" +
+                    "            startTime = System.currentTimeMillis();\n" +
+                    "            while (isRunning) {\n" +
+                    "\n" +
+                    "                // Try to update and render game\n" +
+                    "                try {\n" +
+                    "                    canvas = surfaceHolder.lockHardwareCanvas();\n" +
+                    "                    synchronized (surfaceHolder) {\n" +
+                    "                        game.update();\n" +
+                    "                        updateCount++;\n" +
+                    "                        game.draw(canvas);\n" +
+                    "                    }\n" +
+                    "                } catch (IllegalArgumentException e) {\n" +
+                    "                    e.printStackTrace();\n" +
+                    "                } finally {\n" +
+                    "                    if (canvas != null) {\n" +
+                    "                        try {\n" +
+                    "                            surfaceHolder.unlockCanvasAndPost(canvas);\n" +
+                    "                            frameCount++;\n" +
+                    "                        } catch (Exception e) {\n" +
+                    "                            e.printStackTrace();\n" +
+                    "                        }\n" +
+                    "                    }\n" +
+                    "                }\n" +
+                    "\n" +
+                    "                // Pause game loop to not exceed target UPS\n" +
+                    "                elapsedTime = System.currentTimeMillis() - startTime;\n" +
+                    "                sleepTime = (long) (updateCount * UPS_PERIOD - elapsedTime);\n" +
+                    "                if (sleepTime > 0) {\n" +
+                    "                    try {\n" +
+                    "                        sleep(sleepTime);\n" +
+                    "                    } catch (InterruptedException e) {\n" +
+                    "                        e.printStackTrace();\n" +
+                    "                    }\n" +
+                    "                }\n" +
+                    "\n" +
+                    "                // Skip frames to keep up with target UPS\n" +
+                    "                while (sleepTime < 0 && updateCount < MAX_UPS - 1) {\n" +
+                    "                    //game.update();\n" +
+                    "                    updateCount++;\n" +
+                    "                    elapsedTime = System.currentTimeMillis() - startTime;\n" +
+                    "                    sleepTime = (long) (updateCount * UPS_PERIOD - elapsedTime);\n" +
+                    "                }\n" +
+                    "\n" +
+                    "                // Calculate average UPS and FPS\n" +
+                    "                elapsedTime = System.currentTimeMillis() - startTime;\n" +
+                    "                if (elapsedTime >= 1000) {\n" +
+                    "                    averageUPS = updateCount / (1E-3 * elapsedTime);\n" +
+                    "                    averageFPS = frameCount / (1E-3 * elapsedTime);\n" +
+                    "                    updateCount = 0;\n" +
+                    "                    frameCount = 0;\n" +
+                    "                    startTime = System.currentTimeMillis();\n" +
+                    "                }\n" +
+                    "            }\n" +
+                    "        }\n" +
+                    "\n" +
+                    "        public void stopLoop() {\n" +
+                    "            Log.d(\"GameLoop.java\", \"stopLoop()\");\n" +
+                    "            isRunning = false;\n" +
+                    "            try {\n" +
+                    "                join();\n" +
+                    "            } catch (InterruptedException e) {\n" +
+                    "                e.printStackTrace();\n" +
+                    "            }\n" +
+                    "        }\n" +
+                    "    }");
+        }
+    }
 
     private String getListDeclarationAndAddImports(int listType, String listName) {
         String typeName = mq.b(listType);
@@ -685,10 +801,6 @@ public class Jx {
                             projectFileBean.getJavaName(),
                             "Draw_draw")).a();
         }
-    }
-
-    public void handleGameview(){
-
     }
 
     private String getDrawerViewInitializer(ViewBean viewBean) {

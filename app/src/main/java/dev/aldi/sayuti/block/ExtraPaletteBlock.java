@@ -197,23 +197,6 @@ public class ExtraPaletteBlock {
             String temp = variable.replaceAll("\\b(?:public|private|protected|static|final)\\s\\b", "");
             String[] split = temp.split(" ");
             //DROIDLY MOBILE
-            /*if (split.length == 2 || split.length == 4) {
-                logicEditor.a(split[1], "v", split[0], "getVar").setTag(variable);
-                String variableType = CustomVariableUtil.getVariableType(variable);
-                String variableName = CustomVariableUtil.getVariableName(variable);
-                if (variableType != null && variableName != null) {
-                    String type = switch (variableType) {
-                        case "boolean" -> "b";
-                        case "String" -> "s";
-                        case "double", "int", "float", "long" -> "d";
-                        default -> "v";
-                    };
-                    logicEditor.a(variableName, type, variableType, "getVar").setTag(variable);
-                } else {
-                    SketchwareUtil.toastError("Found invalid data of Custom Variable #" + (i + 1) + ": \"" + variable + "\"");
-                    logicEditor.a("Invalid: " + variable, 0xfff44336);
-                }
-            }*/
             if (split.length == 2 || split.length == 4) {
                 logicEditor.a(split[1], "v", split[0], "getVar").setTag(variable);
             } else {
@@ -400,9 +383,10 @@ public class ExtraPaletteBlock {
         }
 
         switch (paletteId) {
-            case 0:
+            case 0://Variables
                 logicEditor.b("Add variable", "variableAdd");
                 logicEditor.b("Add custom variable", "variableAddNew", clickListener);
+                logicEditor.b("Add custom class", "classAddNew", clickListener);
                 logicEditor.b("Remove variable", "variableRemove", clickListener);
                 variables();
                 return;

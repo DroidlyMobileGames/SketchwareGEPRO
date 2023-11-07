@@ -581,7 +581,7 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
         if (freeMegabytes < 100L && freeMegabytes > 0L) {
             warnAboutInsufficientStorageSpace();
         }
-        copyImportantDefaults();
+        //copyImportantDefaults();
     }
 
     @Override
