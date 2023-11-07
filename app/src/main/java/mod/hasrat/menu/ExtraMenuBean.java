@@ -645,6 +645,7 @@ public class ExtraMenuBean {
             case "activity"://Loads all activities
                 ArrayList<String> activityMenu = new ArrayList<>();
                 title = Helper.getResString(R.string.logic_editor_title_select_activity);
+
                 for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
                     activityMenu.add(projectFileBean.getActivityName());
                 }
@@ -688,6 +689,41 @@ public class ExtraMenuBean {
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
                 break;*/
+            case "class":
+                title = "Select a Custom Class";
+                ArrayList<String> classesMenu = new ArrayList<>();
+                title = Helper.getResString(R.string.logic_editor_title_select_activity);
+
+                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
+                    classesMenu.add(projectFileBean.fileName);
+                }
+                for (String activity : classesMenu) {
+                    viewGroup.addView(logicEditor.e(activity));
+                }
+                classesMenu = new ArrayList<>();
+                if (FileUtil.isExistFile(fpu.getManifestJava(sc_id))) {
+                    for (String activity : frc.getJavaManifestList()) {
+                        if (activity.contains(".")) {
+                            classesMenu.add(activity.substring(1 + activity.lastIndexOf(".")));
+                        }
+                    }
+                    if (classesMenu.size() >= 1) {
+                        TextView txt = new TextView(logicEditor);
+                        txt.setText("Custom Classes");
+                        txt.setPadding(
+                                (int) getDip(2),
+                                (int) getDip(4),
+                                (int) getDip(4),
+                                (int) getDip(4)
+                        );
+                        txt.setTextSize(14f);
+                        viewGroup.addView(txt);
+                    }
+                    for (String activity : classesMenu) {
+                        viewGroup.addView(logicEditor.e(activity));
+                    }
+                }
+                break;
 
             default:
                 Pair<String, String[]> menuPair = BlockMenu.getMenu(menu.getMenuName());
