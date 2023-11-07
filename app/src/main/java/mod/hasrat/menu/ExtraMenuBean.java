@@ -645,9 +645,12 @@ public class ExtraMenuBean {
             case "activity"://Loads all activities
                 ArrayList<String> activityMenu = new ArrayList<>();
                 title = Helper.getResString(R.string.logic_editor_title_select_activity);
-
+                ///DNA MOBILE EDIT removes loading two main activities that shouldn't be used
                 for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
-                    activityMenu.add(projectFileBean.getActivityName());
+                    if (!projectFileBean.getActivityName().equals("MainActivity")
+                            && !projectFileBean.getActivityName().equals("GameviewActivity")) {
+                        activityMenu.add(projectFileBean.getActivityName());
+                    }
                 }
                 for (String activity : activityMenu) {
                     viewGroup.addView(logicEditor.e(activity));
@@ -655,6 +658,7 @@ public class ExtraMenuBean {
                 activityMenu = new ArrayList<>();
                 if (FileUtil.isExistFile(fpu.getManifestJava(sc_id))) {
                     for (String activity : frc.getJavaManifestList()) {
+
                         if (activity.contains(".")) {
                             activityMenu.add(activity.substring(1 + activity.lastIndexOf(".")));
                         }
@@ -689,40 +693,6 @@ public class ExtraMenuBean {
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
                 break;*/
-            case "classes":
-                title = "Select a Custom Class";
-                ArrayList<String> classesMenu = new ArrayList<>();
-
-                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
-                    classesMenu.add(projectFileBean.getActivityName());
-                }
-                for (String activity : classesMenu) {
-                    viewGroup.addView(logicEditor.e(activity));
-                }
-                classesMenu = new ArrayList<>();
-                if (FileUtil.isExistFile(fpu.getManifestJava(sc_id))) {
-                    for (String activity : frc.getJavaManifestList()) {
-                        if (activity.contains(".")) {
-                            classesMenu.add(activity.substring(1 + activity.lastIndexOf(".")));
-                        }
-                    }
-                    if (classesMenu.size() >= 1) {
-                        TextView txt = new TextView(logicEditor);
-                        txt.setText("Custom Classes");
-                        txt.setPadding(
-                                (int) getDip(2),
-                                (int) getDip(4),
-                                (int) getDip(4),
-                                (int) getDip(4)
-                        );
-                        txt.setTextSize(14f);
-                        viewGroup.addView(txt);
-                    }
-                    for (String activity : classesMenu) {
-                        viewGroup.addView(logicEditor.e(activity));
-                    }
-                }
-                break;
             case "class":
                 title = "Select a Custom Class";
                 ArrayList<String> cMenu = new ArrayList<>();
@@ -735,8 +705,31 @@ public class ExtraMenuBean {
                     String variableName = CustomVariableUtil.getVariableModifier(variable);
                     String variableClass = variable.replaceAll(variableType,"")
                             .replaceAll(variableName,"");
-                    if (variableType != null && cMenu.contains(variableType)) {
+                    System.out.println("GET POOP CHEESE" + variableClass);
+                    if (variableType != null && cMenu.contains(variableType) &! variableClass.contains("[]")) {
                         menus.add(variableClass);
+                    }
+                }
+                //Need to replace [] so that array can be used if an array class
+
+                break;
+            case "classar"://Allows to add an array class variable
+                title = "Select a Custom Class Array";
+                ArrayList<String> cMenuAr = new ArrayList<>();
+
+                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
+                    cMenuAr.add(projectFileBean.getActivityName());
+                }
+                for (String variable : projectDataManager.e(javaName, 6)) {
+                    String variableType = CustomVariableUtil.getVariableType(variable);
+                    String variableName = CustomVariableUtil.getVariableModifier(variable);
+                    String variableClass = variable.replaceAll(variableType,"")
+                            .replaceAll(variableName,"");
+                    System.out.println("GET POOP CHEESE" + variableClass);
+                    if (variableType != null
+                            && cMenuAr.contains(variableType)
+                            && variableClass.contains("[]")) {
+                        menus.add(variableClass.replace("[]",""));
                     }
                 }
                 //Need to replace [] so that array can be used if an array class
