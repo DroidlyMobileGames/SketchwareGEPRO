@@ -280,14 +280,19 @@ public class LogicClickListener implements View.OnClickListener {
             String variableModifier = classtypesstr;
             variableModifier = isEmpty(variableModifier) ? "" : variableModifier + " ";
             String variableType = "";
+            variableType = classtype;
+            String variableName = "";
             if (isclassarray){
+                variableName = name.getText().toString() + "[]";
+            }else {
+                variableName = name.getText().toString();
+            }
+            String variableInitializer = initializer.getText().toString();
+            /*if (isclassarray){
                 variableType = classtype + "[]";
             }else {
                 variableType = classtype;
-            }
-            String variableName = name.getText().toString();
-            String variableInitializer = initializer.getText().toString();
-
+            }*/
             boolean validType = !isEmpty(variableType);
             boolean validName = !isEmpty(variableName);
             boolean getsInitialized = !isEmpty(variableInitializer);

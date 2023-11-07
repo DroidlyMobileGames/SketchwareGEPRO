@@ -636,7 +636,7 @@ public class ExtraMenuBean {
                 for (String s : projectDataManager.e(javaName, 5)) {
                     Matcher matcher = Pattern.compile("^(\\w+)[\\s]+(\\w+)").matcher(s);
                     while (matcher.find()) {
-                        menus.add(matcher.group(2));
+                        menus.add(matcher.group(1));
                     }
                 }
                 break;
@@ -689,13 +689,12 @@ public class ExtraMenuBean {
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
                 break;*/
-            case "class":
+            case "classes":
                 title = "Select a Custom Class";
                 ArrayList<String> classesMenu = new ArrayList<>();
-                title = Helper.getResString(R.string.logic_editor_title_select_activity);
 
                 for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
-                    classesMenu.add(projectFileBean.fileName);
+                    classesMenu.add(projectFileBean.getActivityName());
                 }
                 for (String activity : classesMenu) {
                     viewGroup.addView(logicEditor.e(activity));
@@ -724,6 +723,25 @@ public class ExtraMenuBean {
                     }
                 }
                 break;
+            case "class":
+                title = "Select a Custom Class";
+                ArrayList<String> cMenu = new ArrayList<>();
+
+                for (ProjectFileBean projectFileBean : jC.b(sc_id).b()) {
+                    cMenu.add(projectFileBean.getActivityName());
+                }
+                for (String variable : projectDataManager.e(javaName, 6)) {
+                    String variableType = CustomVariableUtil.getVariableType(variable);
+                    String variableName = CustomVariableUtil.getVariableModifier(variable);
+                    String variableClass = variable.replaceAll(variableType,"")
+                            .replaceAll(variableName,"");
+                    if (variableType != null && cMenu.contains(variableType)) {
+                        menus.add(variableClass);
+                    }
+                }
+                //Need to replace [] so that array can be used if an array class
+
+                break;
 
             default:
                 Pair<String, String[]> menuPair = BlockMenu.getMenu(menu.getMenuName());
@@ -731,15 +749,13 @@ public class ExtraMenuBean {
                 menus = new ArrayList<>(Arrays.asList(menuPair.second));
                 extraMenuBlock.a(menu, dialog, menus);
                 //DROIDLY MOBILE EDIT
-                /*menus = new Gson().fromJson(new Gson().toJson(loadType(menuName)),
-                        new TypeToken<ArrayList<String>>() {
-                        }.getType());*/
+
                 for (String s : projectDataManager.e(javaName, 5)) {
                     Matcher matcher2 = Pattern.compile("^(\\w+)[\\s]+(\\w+)").matcher(s);
                     while (matcher2.find()) {
                         if (menuName.equals(matcher2.group(1))) {
                             title = "Select a " + matcher2.group(1) + " Variable";
-                            menus.add(matcher2.group(2));
+                            //menus.add(matcher2.group(2));
                         }
                     }
                 }
