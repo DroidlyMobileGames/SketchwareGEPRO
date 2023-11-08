@@ -395,6 +395,8 @@ public class DesignActivity extends BaseAppCompatActivity implements OnClickList
             sc_id = savedInstanceState.getString("sc_id");
         }
 
+
+
         if (!FileUtil.isExistFile(new FilePathUtil().getPathComponents() + "/component.json")){
             new AddGameEngineComponents(this);//Only adds if not already added
         }

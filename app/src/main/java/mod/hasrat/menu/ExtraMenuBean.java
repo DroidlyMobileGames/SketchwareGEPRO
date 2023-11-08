@@ -705,7 +705,7 @@ public class ExtraMenuBean {
                     String variableName = CustomVariableUtil.getVariableModifier(variable);
                     String variableClass = variable.replaceAll(variableType,"")
                             .replaceAll(variableName,"");
-                    System.out.println("GET POOP CHEESE" + variableClass);
+                    System.out.println("GET POOP CHEESE" + variableType + " " + variableName);
                     if (variableType != null && cMenu.contains(variableType) &! variableClass.contains("[]")) {
                         menus.add(variableClass);
                     }
@@ -725,7 +725,7 @@ public class ExtraMenuBean {
                     String variableName = CustomVariableUtil.getVariableModifier(variable);
                     String variableClass = variable.replaceAll(variableType,"")
                             .replaceAll(variableName,"");
-                    System.out.println("GET POOP CHEESE" + variableClass);
+                    System.out.println("GET POOP CHEESE " +  variableName + " " + variableType);
                     if (variableType != null
                             && cMenuAr.contains(variableType)
                             && variableClass.contains("[]")) {
